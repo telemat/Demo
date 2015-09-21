@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace FlickrApp
 {
+    using ViewModels;
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -27,6 +29,8 @@ namespace FlickrApp
             this.InitializeComponent();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
+
+            //this.DataContext = new MainPageViewModel();
         }
 
         /// <summary>
@@ -47,7 +51,11 @@ namespace FlickrApp
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof (SearchPage));
+            var vm = DataContext as MainPageViewModel;
+
+            vm.AuthenticationKey = "Apache";
+
+            //this.Frame.Navigate(typeof (SearchPage));
         }
     }
 }
