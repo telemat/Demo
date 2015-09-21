@@ -8,5 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid/>
+    <Grid>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="115,46,0,0" VerticalAlignment="Top" Click="button_Click"/>
+    </Grid>
 </Page>

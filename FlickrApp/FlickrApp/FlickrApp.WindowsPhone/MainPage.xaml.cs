@@ -44,5 +44,10 @@ namespace FlickrApp
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
         }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof (SearchPage));
+        }
     }
 }
