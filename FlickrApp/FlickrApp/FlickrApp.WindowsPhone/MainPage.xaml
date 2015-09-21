@@ -12,7 +12,7 @@
         <viewmodels:MainPageViewModel/>
     </Page.DataContext>
     <Grid>
-        <Button Content="Authenticate" x:Name="button" HorizontalAlignment="Left" Margin="173,477,0,0" VerticalAlignment="Top" Click="button_Click"/>
+        <Button Command="{Binding AuthenticateCommand}" Content="Authenticate" HorizontalAlignment="Left" Margin="173,477,0,0" VerticalAlignment="Top" />
         <StackPanel HorizontalAlignment="Stretch" Height="100" VerticalAlignment="Top" >
             <TextBlock TextWrapping="Wrap" Text="Authentication Key"/>
             <TextBox Text="{Binding AuthenticationKey}"

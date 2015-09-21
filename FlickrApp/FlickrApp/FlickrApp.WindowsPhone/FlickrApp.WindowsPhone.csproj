@@ -138,10 +138,24 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PropertyChanged, Version=1.50.3.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PropertyChanged.Fody.1.50.3\lib\dotnet\PropertyChanged.dll</HintPath>
       <Private>True</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FlickrApp.Contracts\FlickrApp.Contracts.csproj">
+      <Project>{d25e2151-66cb-4dcb-a45a-bbdba365a692}</Project>
+      <Name>FlickrApp.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FlickrApp.Core\FlickrApp.Core.csproj">
+      <Project>{7ed211ba-5d95-48dc-aebe-a0fbb721dc6b}</Project>
+      <Name>FlickrApp.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
