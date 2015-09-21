@@ -2,6 +2,6 @@
 {
     public interface IFlickrService
     {
-        string Initialize(string authKey, string secretCode);
+        void Initialize(string authKey, string secretCode);
     }
 }

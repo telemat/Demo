@@ -4,7 +4,6 @@
 
     using System;
     using System.Windows.Input;
-    using Autofac;
     using Common;
     using Contracts;
     using PropertyChanged;
@@ -21,7 +20,7 @@
             
 
             _cmdAuthenticate = new Lazy<ICommand>(() => new RelayCommand(DoIt));
-        }        
+        }
 
         public string AuthenticationKey { get; set; }
 
@@ -31,11 +30,9 @@
 
         private void DoIt()
         {
-            var service = Globals.Container.Resolve<IFlickrService>();
+            var service = Locator.Instance.Resolve<IFlickrService>();
 
-            var x = service.Initialize(AuthenticationKey, SecretCode);
-
-            SecretCode = x;
+            service.Initialize(AuthenticationKey, SecretCode);            
         }
     }
 }

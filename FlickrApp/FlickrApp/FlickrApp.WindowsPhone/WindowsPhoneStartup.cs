@@ -15,7 +15,9 @@
 
             builder.RegisterModule(new CoreModule());
 
-            Globals.Container = builder.Build();
+            var container = builder.Build();
+
+            Locator.Instance.RegisterContainer(container);
         }
     }
 }

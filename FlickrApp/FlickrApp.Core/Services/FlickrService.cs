@@ -9,9 +9,9 @@
     internal class FlickrService
         : IFlickrService
     {
-        public string Initialize(string authKey, string secretCode)
+        public void Initialize(string authKey, string secretCode)
         {
-            return "Wazza!!!";
+            
         }
     }
 }
