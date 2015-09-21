@@ -54,6 +54,12 @@ namespace FlickrApp
             }
 #endif
 
+
+#if WINDOWS_PHONE_APP
+            var startup = new WindowsPhoneStartup();
+            startup.Configure();
+#endif
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -89,8 +95,10 @@ namespace FlickrApp
                 }
 
                 rootFrame.ContentTransitions = null;
-                rootFrame.Navigated += this.RootFrame_FirstNavigated;
+                rootFrame.Navigated += this.RootFrame_FirstNavigated;                                
 #endif
+
+
 
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation

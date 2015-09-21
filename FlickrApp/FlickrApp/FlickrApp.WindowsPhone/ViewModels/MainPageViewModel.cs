@@ -4,7 +4,9 @@
 
     using System;
     using System.Windows.Input;
+    using Autofac;
     using Common;
+    using Contracts;
     using PropertyChanged;
 
     #endregion
@@ -29,7 +31,11 @@
 
         private void DoIt()
         {
-            SecretCode = "Hello there!!!";
+            var service = Globals.Container.Resolve<IFlickrService>();
+
+            var x = service.Initialize(AuthenticationKey, SecretCode);
+
+            SecretCode = x;
         }
     }
 }
