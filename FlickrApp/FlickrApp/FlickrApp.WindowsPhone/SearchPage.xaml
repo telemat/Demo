@@ -36,21 +36,22 @@
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
 
-                <TextBox x:Name="SearchTextBox" PlaceholderText="Search"
-                         Text="{Binding SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         KeyUp="SearchTextBox_KeyUp" />
+            <TextBox x:Name="SearchTextBox" PlaceholderText="Search"
+                     Text="{Binding SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     KeyUp="SearchTextBox_KeyUp" />
             <GridView x:Name="gridView" Margin="0,50,0,0"
-                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                           
-                          ItemsSource="{Binding Photos}">
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      ItemsSource="{Binding Photos}">
                 <GridView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Image Source="{Binding Url}" Width="100" Height="100"
-                                       Stretch="UniformToFill"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center" />
-                            <TextBlock Text="{Binding Title}" FontSize="20" />
-                        </Grid>
+                        <Border Padding="2,2,2,2"
+                                 BorderThickness="2.0"
+                                Width="180" Height="200">
+                            <Grid>
+                                <Image Source="{Binding Url}" VerticalAlignment="Top" />
+                                <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Bottom" HorizontalAlignment="Center"  />
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>

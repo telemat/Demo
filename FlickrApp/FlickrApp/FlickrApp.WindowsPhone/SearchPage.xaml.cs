@@ -5,6 +5,7 @@ namespace FlickrApp
     #region Imports
 
     using System;
+    using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Input;
     using Windows.UI.Xaml.Navigation;
@@ -101,6 +102,13 @@ namespace FlickrApp
                 
                 e.Handled = true;
             }
+        }
+
+        private void GridViewItem_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var element = sender as Grid;
+            element.Width = gridView.Width / 2;
+            element.Height = element.Width;
         }
     }
 }
