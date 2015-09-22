@@ -4,6 +4,7 @@
 
     using Autofac;
     using Core;
+    using Tasks;
 
     #endregion
 

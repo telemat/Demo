@@ -7,7 +7,7 @@
     using System.Diagnostics;
     using System.Threading.Tasks;
     using Contracts;
-    using Contracts.Events;
+    using Contracts.Models;
     using FlickrNet;
     using Photo = Contracts.Models.Photo;
 
@@ -42,24 +42,17 @@
             return _flickr != null;
         }
 
-        public bool Search(string searchStr)
+        public async Task<Collection<Photo>> SearchAsync(PhotoSearchOption option)
         {
             if (_flickr == null)
-                return false;
+                throw new Exception("Flickr service is not initialized");
 
-            _task = Task.Factory.StartNew(() => DoWork(searchStr));
-
-            return true;
-        }
-
-        private void DoWork(string str)
-        {
-            var photos = _flickr.PhotosSearchAsync(new PhotoSearchOptions
+            var photos = await _flickr.PhotosSearchAsync(new PhotoSearchOptions
             {
-                Text = str,
-                Page = 1,
-                PerPage = 10
-            }).Result;
+                Text = option.SearchTerm,
+                Page = option.PageNumber,
+                PerPage = option.PageSize
+            });
 
             var photoCol = new Collection<Photo>();
 
@@ -76,7 +69,7 @@
                 });
             }
 
-            _messenger.Notify(new SearchPhotoResultEvent(photoCol));
+            return photoCol;
         }
     }
 }

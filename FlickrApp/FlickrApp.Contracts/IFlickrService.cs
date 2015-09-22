@@ -2,7 +2,8 @@
 {
     #region Imports
 
-    using System;
+    using System.Collections.ObjectModel;
+    using System.Threading.Tasks;
     using Models;
 
     #endregion
@@ -11,6 +12,6 @@
     {
         bool Initialize(string authKey, string secretCode);
 
-        bool Search(string searchStr);
+        Task<Collection<Photo>> SearchAsync(PhotoSearchOption option);
     }
 }

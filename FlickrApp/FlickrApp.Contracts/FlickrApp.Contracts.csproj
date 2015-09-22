@@ -41,10 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\AuthenticationEvent.cs" />
+    <Compile Include="Events\SearchPhotoEvent.cs" />
     <Compile Include="Events\SearchPhotoResultEvent.cs" />
     <Compile Include="IFlickrService.cs" />
     <Compile Include="IMessengerService.cs" />
     <Compile Include="Models\Photo.cs" />
+    <Compile Include="Models\PhotoSearchOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

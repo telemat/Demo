@@ -14,7 +14,7 @@
     {
         public void Notify<T>(T obj)
         {
-            Debug.WriteLine("Notifying listeners of " + typeof(T));
+            Debug.WriteLine(DateTime.Now.ToString("T") + ": Event " + typeof (T));
 
             this.Publish(obj);
         }

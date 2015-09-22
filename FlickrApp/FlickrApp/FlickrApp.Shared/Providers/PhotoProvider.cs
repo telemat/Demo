@@ -2,8 +2,8 @@
 {
     #region Imports
 
+    using System;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using System.Linq;
     using Contracts;
     using Contracts.Events;
@@ -37,8 +37,10 @@
 
         private void Initialize()
         {
-            Resolver.Instance.Resolve<IMessengerService>().Register<SearchPhotoResultEvent>(OnSearchResult);
-        }
+            var messenger = Resolver.Instance.Resolve<IMessengerService>();
+            messenger.Register<SearchPhotoEvent>(OnSearch);
+            messenger.Register<SearchPhotoResultEvent>(OnSearchResult);
+        }        
 
         protected void ProvideDesignData()
         {
@@ -61,8 +63,14 @@
 
         public ObservableCollection<PhotoViewModel> Photos { get; } = new ObservableCollection<PhotoViewModel>();
 
+        private Guid _currentSearchId = Guid.Empty;
+
         private void OnSearchResult(SearchPhotoResultEvent searchResultEvent)
         {
+            // ignore the results if it does not belong to the current search
+            if (_currentSearchId != searchResultEvent.SearchId)
+                return;
+
             var photoViewModels = searchResultEvent.Photos.Select(
                 photo => new PhotoViewModel(photo)).ToList();
 
@@ -70,13 +78,18 @@
             {
                 foreach (var vm in photoViewModels)
                 {
-                    Debug.WriteLine(vm.Title);
-                    Debug.WriteLine(vm.ThumbnailUrl);
-                    Debug.WriteLine(vm.ImageUrl);
-
                     Photos.Add(vm);
                 }
             });
+        }
+
+        private void OnSearch(SearchPhotoEvent searchPhotoEvent)
+        {
+            // remember the search that is in progress
+            _currentSearchId = searchPhotoEvent.SearchId;
+
+            if (Photos.Any())
+                Photos.Clear();
         }
     }
 }

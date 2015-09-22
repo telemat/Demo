@@ -22,13 +22,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Providers\BaseProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\PhotoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tasks\BaseTask.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tasks\PhotoDownloaderTask.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PhotoViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PivotPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SearchPageViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Behaviors\" />
   </ItemGroup>
 </Project>
