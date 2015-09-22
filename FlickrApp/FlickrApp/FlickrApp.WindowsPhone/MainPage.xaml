@@ -3,22 +3,22 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FlickrApp"
-    xmlns:viewmodels="using:FlickrApp.ViewModels"
+    xmlns:viewModels="using:FlickrApp.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.DataContext>
-        <viewmodels:MainPageViewModel/>
+        <viewModels:MainPageViewModel/>
     </Page.DataContext>
     <Grid>
         <Button x:Name="AuthenticateBtn" Command="{Binding AuthenticateCommand}" Content="Authenticate" HorizontalAlignment="Left" Margin="173,477,0,0" VerticalAlignment="Top" Click="AuthenticateBtn_Click" />
         <StackPanel HorizontalAlignment="Stretch" Height="100" VerticalAlignment="Top" >
             <TextBlock TextWrapping="Wrap" Text="Authentication Key"/>
-            <TextBox Text="{Binding AuthenticationKey}"
+            <TextBox Text="{Binding AuthenticationKey, Mode=TwoWay}"
                      Margin="0" TextWrapping="Wrap" VerticalAlignment="Stretch"/>
             <TextBlock TextWrapping="Wrap" Text="Secret Code"/>
-            <TextBox Text="{Binding SecretCode}"
+            <TextBox Text="{Binding SecretCode, Mode=TwoWay}"
                      Margin="0" TextWrapping="Wrap" VerticalAlignment="Stretch"/>
         </StackPanel>
     </Grid>

@@ -7,17 +7,18 @@
     using Common;
     using Contracts;
     using Contracts.Events;
-    using PropertyChanged;
 
     #endregion
 
-    [ImplementPropertyChanged]
     public class MainPageViewModel
+        : BaseViewModel
     {
         private readonly Lazy<ICommand> _cmdAuthenticate;
 
         public MainPageViewModel()
-        {            
+        {
+           
+
             _cmdAuthenticate = new Lazy<ICommand>(() => new RelayCommand(Authenticate));
         }
 
