@@ -1,42 +1,32 @@
-﻿using FlickrApp.Common;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Display;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+﻿ // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace FlickrApp
 {
+    #region Imports
+
+    using System;
+    using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Input;
+    using Windows.UI.Xaml.Navigation;
+    using Common;
     using ViewModels;
+
+    #endregion
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class SearchPage : Page
     {
-        private NavigationHelper navigationHelper;
-        private SearchPageViewModel _viewModel;
+        private readonly SearchPageViewModel _viewModel;
 
         public SearchPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.navigationHelper = new NavigationHelper(this);
-            this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
-            this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+            NavigationHelper = new NavigationHelper(this);
+            NavigationHelper.LoadState += NavigationHelper_LoadState;
+            NavigationHelper.SaveState += NavigationHelper_SaveState;
 
             _viewModel = DataContext as SearchPageViewModel;
         }
@@ -44,10 +34,7 @@ namespace FlickrApp
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
         /// </summary>
-        public NavigationHelper NavigationHelper
-        {
-            get { return this.navigationHelper; }
-        }
+        public NavigationHelper NavigationHelper { get; }
 
         /// <summary>
         /// Populates the page with content passed during navigation.  Any saved state is also
@@ -93,12 +80,12 @@ namespace FlickrApp
         /// handlers that cannot cancel the navigation request.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedTo(e);
+            NavigationHelper.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedFrom(e);
+            NavigationHelper.OnNavigatedFrom(e);
         }
 
         #endregion
@@ -107,10 +94,11 @@ namespace FlickrApp
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                if (_viewModel.SearchCommand.CanExecute(null))
-                    _viewModel.SearchCommand.Execute(null);
+                if (!string.IsNullOrWhiteSpace(_viewModel.SearchTerm))
+                    if (_viewModel.SearchCommand.CanExecute(null))
+                        _viewModel.SearchCommand.Execute(null);
 
-                e.Handled = true;                
+                e.Handled = true;
             }
         }
     }
