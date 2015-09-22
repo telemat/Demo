@@ -1,9 +1,16 @@
 ﻿namespace FlickrApp.Contracts
 {
+    #region Imports
+
+    using System;
+    using Models;
+
+    #endregion
+
     public interface IFlickrService
     {
         bool Initialize(string authKey, string secretCode);
 
-        void Search(string searchStr);
+        bool Search(string searchStr);
     }
 }

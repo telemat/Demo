@@ -98,7 +98,7 @@ namespace FlickrApp
                     _viewModel.SearchTerm = string.Empty;
                 else if (_viewModel.SearchCommand.CanExecute(null))
                     _viewModel.SearchCommand.Execute(null);
-
+                
                 e.Handled = true;
             }
         }

@@ -3,6 +3,7 @@
     #region Imports
 
     using System;
+    using System.Diagnostics;
     using Contracts;
     using PubSub;
 
@@ -13,6 +14,8 @@
     {
         public void Notify<T>(T obj)
         {
+            Debug.WriteLine("Notifying listeners of " + typeof(T));
+
             this.Publish(obj);
         }
 

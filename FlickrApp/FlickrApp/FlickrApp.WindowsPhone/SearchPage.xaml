@@ -5,41 +5,56 @@
     xmlns:local="using:FlickrApp"
     xmlns:viewModels="using:FlickrApp.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.DataContext>
-        <viewModels:SearchPageViewModel/>
+        <viewModels:SearchPageViewModel />
     </Page.DataContext>
-    
+
     <Grid x:Name="LayoutRoot">
 
         <Grid.ChildrenTransitions>
             <TransitionCollection>
-                <EntranceThemeTransition/>
+                <EntranceThemeTransition />
             </TransitionCollection>
         </Grid.ChildrenTransitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="MY APPLICATION" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-            <TextBlock Text="Search Page" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>            
+            <TextBlock Text="MY APPLICATION" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
+            <TextBlock Text="Search Page" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"
+                       CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}" />
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            <StackPanel>
-                <TextBox x:Name="SearchTextBox" PlaceholderText="Search" Text="{Binding SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyUp="SearchTextBox_KeyUp">
-                </TextBox>
-                <GridView x:Name="gridView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="200" Background="Orange" />
-            </StackPanel>
+
+                <TextBox x:Name="SearchTextBox" PlaceholderText="Search"
+                         Text="{Binding SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         KeyUp="SearchTextBox_KeyUp" />
+            <GridView x:Name="gridView" Margin="0,50,0,0"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                           
+                          ItemsSource="{Binding Photos}">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Image Source="{Binding Url}" Width="100" Height="100"
+                                       Stretch="UniformToFill"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Title}" FontSize="20" />
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
         </Grid>
-        
+
     </Grid>
 </Page>

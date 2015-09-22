@@ -24,4 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SearchPageViewModel.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Behaviors\" />
+  </ItemGroup>
 </Project>

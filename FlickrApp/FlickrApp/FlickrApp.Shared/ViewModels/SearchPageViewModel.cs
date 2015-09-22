@@ -3,10 +3,12 @@
     #region Imports
 
     using System;
-    using System.Diagnostics;
+    using System.Collections.ObjectModel;
     using System.Windows.Input;
     using Common;
     using Contracts;
+    using Contracts.Events;
+    using Contracts.Models;
 
     #endregion
 
@@ -18,17 +20,33 @@
         public SearchPageViewModel()
         {
             _cmdSearch = new Lazy<ICommand>(() => new RelayCommand(Search));
+
+            Resolver.Instance.Resolve<IMessengerService>().Register<SearchPhotoResultEvent>(OnSearchResult);
+
+            Photos = new ObservableCollection<Photo>();
+
+            SearchTerm = "Mauritius";
         }
 
         public string SearchTerm { get; set; }
 
         public ICommand SearchCommand => _cmdSearch.Value;
 
+        public ObservableCollection<Photo> Photos { get; }
+
         private void Search()
         {
             var flickrService = Resolver.Instance.Resolve<IFlickrService>();
 
-            Debug.WriteLine(SearchTerm);
+            flickrService.Search(SearchTerm);
+        }
+
+        private void OnSearchResult(SearchPhotoResultEvent searchResultEvent)
+        {
+            foreach (var photo in searchResultEvent.Photos)
+            {
+                RunOnUIThread(() => { Photos.Add(photo); });
+            }
         }
     }
 }

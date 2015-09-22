@@ -17,7 +17,7 @@
 
         public MainPageViewModel()
         {
-           
+            
 
             _cmdAuthenticate = new Lazy<ICommand>(() => new RelayCommand(Authenticate));
         }
