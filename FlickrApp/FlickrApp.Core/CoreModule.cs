@@ -17,6 +17,7 @@
             // Singletons
             //
             builder.RegisterType<FlickrService>().As<IFlickrService>().SingleInstance();
+            builder.RegisterType<MessengerService>().As<IMessengerService>().SingleInstance();
 
             base.Load(builder);
         }

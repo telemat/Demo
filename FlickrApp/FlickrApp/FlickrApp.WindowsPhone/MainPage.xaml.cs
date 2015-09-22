@@ -1,4 +1,4 @@
-﻿ // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+﻿// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace FlickrApp
 {
@@ -7,7 +7,8 @@ namespace FlickrApp
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Navigation;
-    using ViewModels;
+    using Contracts;
+    using Contracts.Events;
 
     #endregion
 
@@ -40,9 +41,15 @@ namespace FlickrApp
             // this event is handled for you.
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void AuthenticateBtn_Click(object sender, RoutedEventArgs e)
         {
-            //this.Frame.Navigate(typeof (SearchPage));
+            Resolver.Instance.Resolve<IMessengerService>().Register<AuthenticationEvent>(it =>
+            {
+                if (it.IsSuccessful)
+                    Frame.Navigate(typeof (SearchPage));
+
+                Resolver.Instance.Resolve<IMessengerService>().Unregister<AuthenticationEvent>();
+            });
         }
     }
 }

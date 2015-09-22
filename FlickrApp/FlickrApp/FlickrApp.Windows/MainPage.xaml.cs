@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace FlickrApp
 {
+    using Contracts;
+    using Contracts.Events;
     using ViewModels;
 
     /// <summary>
@@ -49,13 +51,15 @@ namespace FlickrApp
             // this event is handled for you.
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void AuthenticateBtn_Click(object sender, RoutedEventArgs e)
         {
-            var vm = DataContext as MainPageViewModel;
+            Resolver.Instance.Resolve<IMessengerService>().Register<AuthenticationEvent>(it =>
+            {
+                if (it.IsSuccessful)
+                    Frame.Navigate(typeof(SearchPage));
 
-            vm.AuthenticationKey = "Apache";
-
-            //this.Frame.Navigate(typeof (SearchPage));
+                Resolver.Instance.Resolve<IMessengerService>().Unregister<AuthenticationEvent>();
+            });
         }
     }
 }

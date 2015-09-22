@@ -2,6 +2,7 @@
 {
     #region Imports
 
+    using System;
     using System.Diagnostics;
     using Contracts;
     using FlickrNet;
@@ -13,12 +14,22 @@
     {
         private Flickr _flickr;
 
-        public void Initialize(string authKey, string secretCode)
+
+        public bool Initialize(string authKey, string secretCode)
         {
             if (_flickr != null)
-                return;
+                return true;
 
-            _flickr = new Flickr(authKey);
+            try
+            {
+                _flickr = new Flickr(authKey);
+            }
+            catch (Exception ex)
+            {
+                Debug.Assert(false);
+            }
+
+            return _flickr != null;
         }
 
         public async void Search(string searchStr)

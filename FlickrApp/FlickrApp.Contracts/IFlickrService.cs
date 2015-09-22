@@ -2,7 +2,7 @@
 {
     public interface IFlickrService
     {
-        void Initialize(string authKey, string secretCode);
+        bool Initialize(string authKey, string secretCode);
 
         void Search(string searchStr);
     }

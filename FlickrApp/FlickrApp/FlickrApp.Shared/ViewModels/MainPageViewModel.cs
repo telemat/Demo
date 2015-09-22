@@ -6,6 +6,7 @@
     using System.Windows.Input;
     using Common;
     using Contracts;
+    using Contracts.Events;
     using PropertyChanged;
 
     #endregion
@@ -19,7 +20,7 @@
         {
             
 
-            _cmdAuthenticate = new Lazy<ICommand>(() => new RelayCommand(DoIt));
+            _cmdAuthenticate = new Lazy<ICommand>(() => new RelayCommand(Authenticate));
         }
 
         public string AuthenticationKey { get; set; }
@@ -28,12 +29,21 @@
 
         public ICommand AuthenticateCommand => _cmdAuthenticate.Value;
 
-        private void DoIt()
+        private void Authenticate()
         {
-            var service = Resolver.Instance.Resolve<IFlickrService>();
+            var flickrService = Resolver.Instance.Resolve<IFlickrService>();
+            var messengerService = Resolver.Instance.Resolve<IMessengerService>();
 
-            service.Initialize(AuthenticationKey, SecretCode);
-            service.Search("Automobilausstellung");
+            try
+            {
+                flickrService.Initialize(AuthenticationKey, SecretCode);
+
+                messengerService.Notify(new AuthenticationEvent(true));
+            }
+            catch (Exception)
+            {
+                messengerService.Notify(new AuthenticationEvent(false));
+            }
         }
     }
 }
