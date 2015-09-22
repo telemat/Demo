@@ -7,22 +7,22 @@
     #endregion
 
     /// <summary>
-    /// Locator used for resolving interfaces
+    /// Resolves interfaces registered by the DI container
     /// </summary>
-    internal sealed class Locator
+    internal sealed class Resolver
     {
         #region Singleton
 
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
-        static Locator()
+        static Resolver()
         {
         }
 
-        private Locator()
+        private Resolver()
         {
         }
 
-        public static Locator Instance { get; } = new Locator();
+        public static Resolver Instance { get; } = new Resolver();
 
         #endregion
 

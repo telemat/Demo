@@ -30,9 +30,10 @@
 
         private void DoIt()
         {
-            var service = Locator.Instance.Resolve<IFlickrService>();
+            var service = Resolver.Instance.Resolve<IFlickrService>();
 
-            service.Initialize(AuthenticationKey, SecretCode);            
+            service.Initialize(AuthenticationKey, SecretCode);
+            service.Search("Automobilausstellung");
         }
     }
 }

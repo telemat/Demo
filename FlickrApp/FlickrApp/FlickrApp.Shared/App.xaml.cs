@@ -58,6 +58,9 @@ namespace FlickrApp
 #if WINDOWS_PHONE_APP
             var startup = new WindowsPhoneStartup();
             startup.Configure();
+#elif WINDOWS_APP
+            var startup = new WindowsStartup();
+            startup.Configure();
 #endif
 
             Frame rootFrame = Window.Current.Content as Frame;
