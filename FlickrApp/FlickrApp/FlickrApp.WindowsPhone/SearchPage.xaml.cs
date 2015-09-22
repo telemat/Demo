@@ -1,4 +1,4 @@
-﻿ // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+﻿// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace FlickrApp
 {
@@ -94,9 +94,10 @@ namespace FlickrApp
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                if (!string.IsNullOrWhiteSpace(_viewModel.SearchTerm))
-                    if (_viewModel.SearchCommand.CanExecute(null))
-                        _viewModel.SearchCommand.Execute(null);
+                if (string.IsNullOrWhiteSpace(_viewModel.SearchTerm))
+                    _viewModel.SearchTerm = string.Empty;
+                else if (_viewModel.SearchCommand.CanExecute(null))
+                    _viewModel.SearchCommand.Execute(null);
 
                 e.Handled = true;
             }
