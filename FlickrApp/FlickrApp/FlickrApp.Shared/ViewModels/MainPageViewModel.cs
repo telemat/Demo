@@ -17,9 +17,7 @@
         private readonly Lazy<ICommand> _cmdAuthenticate;
 
         public MainPageViewModel()
-        {
-            
-
+        {            
             _cmdAuthenticate = new Lazy<ICommand>(() => new RelayCommand(Authenticate));
         }
 
@@ -36,9 +34,9 @@
 
             try
             {
-                flickrService.Initialize(AuthenticationKey, SecretCode);
+                var isSuccess = flickrService.Initialize(AuthenticationKey, SecretCode);
 
-                messengerService.Notify(new AuthenticationEvent(true));
+                messengerService.Notify(new AuthenticationEvent(isSuccess));
             }
             catch (Exception)
             {
