@@ -7,7 +7,7 @@
 
     #endregion
 
-    public class WindowsStartup
+    public class Startup
     {
         public void Configure()
         {

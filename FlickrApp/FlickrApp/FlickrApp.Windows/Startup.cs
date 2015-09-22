@@ -7,7 +7,7 @@
 
     #endregion
 
-    public class WindowsPhoneStartup
+    public class Startup
     {
         public void Configure()
         {

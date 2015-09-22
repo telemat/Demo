@@ -7,8 +7,7 @@
     using System.Windows.Input;
     using Common;
     using Contracts;
-    using Contracts.Events;
-    using Contracts.Models;
+    using Providers;
 
     #endregion
 
@@ -21,10 +20,6 @@
         {
             _cmdSearch = new Lazy<ICommand>(() => new RelayCommand(Search));
 
-            Resolver.Instance.Resolve<IMessengerService>().Register<SearchPhotoResultEvent>(OnSearchResult);
-
-            Photos = new ObservableCollection<Photo>();
-
             SearchTerm = "Mauritius";
         }
 
@@ -32,21 +27,13 @@
 
         public ICommand SearchCommand => _cmdSearch.Value;
 
-        public ObservableCollection<Photo> Photos { get; }
+        public ObservableCollection<PhotoViewModel> Photos => PhotoProvider.Instance.Photos;
 
         private void Search()
         {
             var flickrService = Resolver.Instance.Resolve<IFlickrService>();
 
             flickrService.Search(SearchTerm);
-        }
-
-        private void OnSearchResult(SearchPhotoResultEvent searchResultEvent)
-        {
-            foreach (var photo in searchResultEvent.Photos)
-            {
-                RunOnUIThread(() => { Photos.Add(photo); });
-            }
         }
     }
 }

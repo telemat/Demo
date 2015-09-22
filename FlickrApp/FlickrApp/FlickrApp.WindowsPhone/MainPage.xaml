@@ -21,5 +21,6 @@
             <TextBox Text="{Binding SecretCode, Mode=TwoWay}"
                      Margin="0" TextWrapping="Wrap" VerticalAlignment="Stretch"/>
         </StackPanel>
+        <Button x:Name="button" Content="Pivot" HorizontalAlignment="Left" Margin="50,404,0,0" VerticalAlignment="Top" Click="button_Click"/>
     </Grid>
 </Page>

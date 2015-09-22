@@ -20,17 +20,15 @@ using Windows.UI.Xaml.Navigation;
 
 namespace FlickrApp
 {
-    using Contracts.Models;
-    using ViewModels;
-
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PivotPage : Page
+    public sealed partial class Test : Page
     {
         private NavigationHelper navigationHelper;
+        private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public PivotPage()
+        public Test()
         {
             this.InitializeComponent();
 
@@ -39,14 +37,21 @@ namespace FlickrApp
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
         }
 
-        public PivotPageViewModel ViewModel => DataContext as PivotPageViewModel;
-
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
         /// </summary>
         public NavigationHelper NavigationHelper
         {
             get { return this.navigationHelper; }
+        }
+
+        /// <summary>
+        /// Gets the view model for this <see cref="Page"/>.
+        /// This can be changed to a strongly typed view model.
+        /// </summary>
+        public ObservableDictionary DefaultViewModel
+        {
+            get { return this.defaultViewModel; }
         }
 
         /// <summary>

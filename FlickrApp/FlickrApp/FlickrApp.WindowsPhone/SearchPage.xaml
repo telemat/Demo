@@ -9,6 +9,9 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <d:Page.DataContext> <!--design only-->
+        <viewModels:SearchPageViewModel />
+    </d:Page.DataContext>
     <Page.DataContext>
         <viewModels:SearchPageViewModel />
     </Page.DataContext>
@@ -28,9 +31,9 @@
 
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="MY APPLICATION" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
-            <TextBlock Text="Search Page" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"
-                       CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}" />
+            <TextBlock Text="Flickr App (Search Page)" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
+            <!--<TextBlock Text="Search Page" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"
+                       CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}" />-->
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
@@ -48,7 +51,7 @@
                                  BorderThickness="2.0"
                                 Width="180" Height="200">
                             <Grid>
-                                <Image Source="{Binding Url}" VerticalAlignment="Top" />
+                                <Image Source="{Binding ThumbnailUrl}" VerticalAlignment="Top" />
                                 <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Bottom" HorizontalAlignment="Center"  />
                             </Grid>
                         </Border>

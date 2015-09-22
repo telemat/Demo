@@ -68,7 +68,11 @@
                 photoCol.Add(new Photo
                 {
                     Title = photo.Title,
-                    Url = photo.SquareThumbnailUrl
+                    Description = photo.Description,
+                    ThumbnailUrl = photo.SquareThumbnailUrl,
+                    ImageUrl = photo.DoesLargeExist
+                        ? photo.LargeUrl
+                        : (photo.DoesMediumExist ? photo.MediumUrl : photo.SquareThumbnailUrl)
                 });
             }
 
