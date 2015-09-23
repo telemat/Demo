@@ -9,47 +9,41 @@
 
     internal static class StringExtensions
     {
-        /// <summary>
-        /// Returns a list of strings no larger than the max length sent in.
-        /// Source: http://bryan.reynoldslive.com/post/Wrapping-string-data.aspx
-        /// </summary>
-        /// <remarks>useful function used to wrap string text for reporting.</remarks>
-        /// <param name="text">Text to be wrapped into of List of Strings</param>
-        /// <param name="maxLength">Max length you want each line to be.</param>
-        /// <returns>List of Strings</returns>
-        public static string Wrap(this string text, int maxLength)
+        public static string WrapAtSpace(this string text, int maxLength)
         {
-            // Return empty list of strings if the text was empty
+            const char space = ' ';
 
+            var lines = WrapAtChar(text, maxLength, space);
+
+            return string.Join(Environment.NewLine, lines);
+        }
+
+        public static IEnumerable<string> WrapAtChar(this string text, int maxLength, char chr)
+        {
             if (string.IsNullOrEmpty(text))
-                return string.Empty;
+                yield break;
 
+            var tokens = text.Split(new[] {chr}, StringSplitOptions.RemoveEmptyEntries);
+            var currentLine = string.Empty;
 
-            var lines = new List<string>();
-            var words = text.Split(' ');
-            var currentLine = String.Empty;
-
-            foreach (var currentWord in words)
+            foreach (var token in tokens)
             {
                 if ((currentLine.Length > maxLength) ||
-                    ((currentLine.Length + currentWord.Length) > maxLength))
+                    ((currentLine.Length + token.Length) > maxLength))
 
                 {
-                    lines.Add(currentLine);
-                    currentLine = "";
+                    yield return currentLine;
+                    currentLine = string.Empty;
                 }
 
                 if (currentLine.Length > 0)
-                    currentLine += " " + currentWord;
+                    currentLine += (chr + token);
                 else
-                    currentLine += currentWord;
+                    currentLine += token;
             }
 
             if (currentLine.Length > 0)
-                lines.Add(currentLine);
-
-
-            return string.Join(Environment.NewLine, lines);
+                yield return currentLine;
         }
     }
 }

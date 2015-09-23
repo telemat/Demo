@@ -14,12 +14,10 @@
         private Geopoint _mapCentre;
 
         public LocationPageViewModel()
-        {
-            MapLocations = new ObservableCollection<MapLocationViewModel>();
-
+        {         
             //if (IsInDesignMode)
             {
-                var vm = new MapLocationViewModel
+                PointOfInterest = new MapLocationViewModel
                 {
                     Label = "ZALANDO Neue Bahnhofstraße 11, 10245 Berlin, Germany",
                     Location = new Geopoint(new BasicGeoposition
@@ -28,8 +26,6 @@
                         Longitude = 13.471250
                     })
                 };
-
-                MapLocations.Add(vm);
             }
         }
 
@@ -38,18 +34,6 @@
                 ""
             ;
 
-        public Geopoint MapCentre
-        {
-            get
-            {
-                if (_mapCentre == null && MapLocations.Any())
-                    _mapCentre = MapLocations.First().Location;
-
-                return _mapCentre;
-            }
-            set { _mapCentre = value; }
-        }
-
-        public ObservableCollection<MapLocationViewModel> MapLocations { get; }
+        public MapLocationViewModel PointOfInterest { get; }
     }
 }

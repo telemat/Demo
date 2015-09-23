@@ -31,7 +31,7 @@
 
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="MY APPLICATION" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
+            <TextBlock Text="FlickrApp (Map Page)" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
             <TextBlock Text="Map Page" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"
                        CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}" />
         </StackPanel>
@@ -40,31 +40,21 @@
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
             <Maps:MapControl Name="MapControl"
                              MapServiceToken="{Binding ServiceToken}"
-                             Center="{Binding MapCentre}"
+                             Center="{Binding PointOfInterest.Location}"
                              LandmarksVisible="False" TrafficFlowVisible="False"
-                             ZoomLevel="12" PedestrianFeaturesVisible="False">
-                <Maps:MapItemsControl ItemsSource="{Binding MapLocations}">
-                    <Maps:MapItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Image Source="Assets/mappin.png" Height="25"
-                                       VerticalAlignment="Top"
-                                       Maps:MapControl.Location="{Binding Location}"
-                                       Maps:MapControl.NormalizedAnchorPoint="0.5, 1" />
-                                <Border Margin="0,30,0,0" BorderBrush="WhiteSmoke" BorderThickness="1">
-                                <Grid
-                                    Maps:MapControl.Location="{Binding Location}"
-                                    Maps:MapControl.NormalizedAnchorPoint="0.5,-1"
-                                    Background="DarkSlateGray">
-                                    <TextBlock Margin="5,2,5,2" VerticalAlignment="Bottom"
-                                               Text="{Binding DisplayLabel}"
-                                               Foreground="WhiteSmoke" FontSize="15" />
-                                </Grid>
-                                </Border>
-                            </Grid>
-                        </DataTemplate>
-                    </Maps:MapItemsControl.ItemTemplate>
-                </Maps:MapItemsControl>
+                             ZoomLevel="15" PedestrianFeaturesVisible="False">
+                <Image Source="Assets/mappin.png" Height="25"
+                       Maps:MapControl.Location="{Binding PointOfInterest.Location}"
+                       Maps:MapControl.NormalizedAnchorPoint="0.5, 0.5" />
+                <Border BorderBrush="WhiteSmoke" BorderThickness="2"
+                        Maps:MapControl.Location="{Binding PointOfInterest.Location}"
+                        Maps:MapControl.NormalizedAnchorPoint="0.5, -0.5">
+                    <Grid Background="OrangeRed">
+                        <TextBlock Margin="5,2,5,2" VerticalAlignment="Bottom"
+                                   Text="{Binding PointOfInterest.DisplayLabel}"
+                                   Foreground="WhiteSmoke" FontSize="14" />
+                    </Grid>
+                </Border>
             </Maps:MapControl>
         </Grid>
     </Grid>
