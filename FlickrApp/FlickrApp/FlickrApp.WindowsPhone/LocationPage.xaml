@@ -38,28 +38,32 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            <Maps:MapControl Name="MapControl" 
+            <Maps:MapControl Name="MapControl"
                              MapServiceToken="{Binding ServiceToken}"
-                             Center="{Binding Path=MapLocation.Location}"
-                             LandmarksVisible = "False" TrafficFlowVisible = "False"
-                             ZoomLevel="12" PedestrianFeaturesVisible = "False">
-                <Maps:MapItemsControl>
-                    <!--Bind single point to collection  https://msdn.microsoft.com/en-us/magazine/dn890375.aspx-->
-                    <Grid
-                        Maps:MapControl.Location="{Binding Path=MapLocation.Location}"
-                        Maps:MapControl.NormalizedAnchorPoint="0.5,-1.0"
-                        Background="DarkSlateGray">
-                        <TextBlock Margin="5,2,5,2" VerticalAlignment="Bottom"
-                            Text="{Binding Path=MapLocation.Label}" 
-                                   Foreground="WhiteSmoke"
-                                   FontSize="16"/>
-                    </Grid>
-                    <Grid
-                        Maps:MapControl.Location="{Binding Path=MapLocation.Location}"
-                        Maps:MapControl.NormalizedAnchorPoint="0.0, 0.0">
-                        <Ellipse Height="20" Width="20" Fill="Orange" Stroke="White" StrokeThickness="1" />
-                        <Ellipse Height="12" Width="12" Fill="Red"  Stroke="White" StrokeThickness="1" />
-                    </Grid>
+                             Center="{Binding MapCentre}"
+                             LandmarksVisible="False" TrafficFlowVisible="False"
+                             ZoomLevel="12" PedestrianFeaturesVisible="False">
+                <Maps:MapItemsControl ItemsSource="{Binding MapLocations}">
+                    <Maps:MapItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Image Source="Assets/mappin.png" Height="25"
+                                       VerticalAlignment="Top"
+                                       Maps:MapControl.Location="{Binding Location}"
+                                       Maps:MapControl.NormalizedAnchorPoint="0.5, 1" />
+                                <Border Margin="0,30,0,0" BorderBrush="WhiteSmoke" BorderThickness="1">
+                                <Grid
+                                    Maps:MapControl.Location="{Binding Location}"
+                                    Maps:MapControl.NormalizedAnchorPoint="0.5,-1"
+                                    Background="DarkSlateGray">
+                                    <TextBlock Margin="5,2,5,2" VerticalAlignment="Bottom"
+                                               Text="{Binding DisplayLabel}"
+                                               Foreground="WhiteSmoke" FontSize="15" />
+                                </Grid>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </Maps:MapItemsControl.ItemTemplate>
                 </Maps:MapItemsControl>
             </Maps:MapControl>
         </Grid>
