@@ -27,7 +27,7 @@
                 SearchTerm = string.Empty;
             }
         }
-        
+
         private const int DefaultPageSize = 10;
 
         private readonly IMessengerService _messengerService;
@@ -109,7 +109,8 @@
                 _searchRequest.IsUpdated = true;
             }
 
-            WakeUp();
+            if (! IsRunning)
+                Resume();
         }
 
         protected override void Dispose(bool disposing)
@@ -122,7 +123,7 @@
             base.Dispose(disposing);
 
             // cleanup
-            _messengerService.Unregister<SearchPhotoEvent>();            
+            _messengerService.Unregister<SearchPhotoEvent>();
         }
     }
 }

@@ -17,14 +17,18 @@
         private readonly uint _timeoutInMs;
         private readonly Task _task;
         private readonly CancellationTokenSource _cancellationTokenSource;
-        private readonly AutoResetEvent _wakeupEvent;
+        private readonly ManualResetEventSlim _runEvent;
+        private readonly ManualResetEventSlim _pauseEvent;
+        private readonly AutoResetEvent _resumeEvent;        
 
         protected BaseTask(string taskName, uint timeoutInMs = 1000)
         {
             _taskName = taskName;
             _timeoutInMs = timeoutInMs;
             _cancellationTokenSource = new CancellationTokenSource();
-            _wakeupEvent = new AutoResetEvent(false);
+            _runEvent = new ManualResetEventSlim(false);
+            _pauseEvent = new ManualResetEventSlim(false);
+            _resumeEvent = new AutoResetEvent(false);
 
             _task = new Task(Execute, _cancellationTokenSource.Token);
         }
@@ -32,8 +36,10 @@
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);            
+            GC.SuppressFinalize(this);
         }
+
+        public bool IsRunning => _runEvent.IsSet;
 
         public void Start()
         {
@@ -50,10 +56,25 @@
             Debug.WriteLine(_taskName + " task stopped");
         }
 
+        public void Pause()
+        {
+            _pauseEvent.Set();
+
+            Debug.WriteLine(_taskName + " task paused");
+        }
+
+        public void Resume()
+        {
+            _pauseEvent.Reset();
+            _resumeEvent.Set();
+
+            Debug.WriteLine(_taskName + " task resumed");
+        }
+
         private void Execute()
         {
             var cancelToken = _cancellationTokenSource.Token;
-            var waitHandles = new[] {_wakeupEvent, cancelToken.WaitHandle};
+            var waitHandles = new[] {_resumeEvent, cancelToken.WaitHandle};
 
             try
             {
@@ -62,7 +83,14 @@
                     var index = WaitHandle.WaitAny(waitHandles, (int) _timeoutInMs);
 
                     if (index == WaitHandle.WaitTimeout || index == 0 /* wakeup event */)
-                        DoUsefulWork();
+                        if (! _pauseEvent.IsSet)
+                        {
+                            _runEvent.Set();
+
+                            DoUsefulWork();
+
+                            _runEvent.Reset();
+                        }
 
                     if (cancelToken.IsCancellationRequested)
                         break;
@@ -74,11 +102,6 @@
             }
         }
 
-        protected void WakeUp()
-        {
-            _wakeupEvent.Set();
-        }
-
         protected abstract void DoUsefulWork();
 
         protected virtual void Dispose(bool disposing)
@@ -88,14 +111,14 @@
 
             _isDisposed = true;
 
-            if (!_task.IsCanceled && !_task.IsCompleted)
+            if (! _task.IsCanceled && ! _task.IsCompleted)
                 Stop();
 
             // cleanup
             _cancellationTokenSource.Dispose();
-            _wakeupEvent.Dispose();
+            _resumeEvent.Dispose();
 
-            Debug.WriteLine(_taskName + " task disposed");            
+            Debug.WriteLine(_taskName + " task disposed");
         }
     }
 }
