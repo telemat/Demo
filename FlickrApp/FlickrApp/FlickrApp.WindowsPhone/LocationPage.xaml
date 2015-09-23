@@ -1,35 +1,65 @@
-﻿<Page xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps" 
-    x:Class="FlickrApp.LocationPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:FlickrApp"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+﻿<Page xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
+      x:Class="FlickrApp.LocationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:FlickrApp"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:viewModels="using:FlickrApp.ViewModels"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <d:Page.DataContext> <!--design only-->
+        <viewModels:LocationPageViewModel />
+    </d:Page.DataContext>
+    <Page.DataContext>
+        <viewModels:LocationPageViewModel />
+    </Page.DataContext>
 
     <Grid x:Name="LayoutRoot">
 
         <Grid.ChildrenTransitions>
             <TransitionCollection>
-                <EntranceThemeTransition/>
+                <EntranceThemeTransition />
             </TransitionCollection>
         </Grid.ChildrenTransitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="MY APPLICATION" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-            <TextBlock Text="Map Page" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+            <TextBlock Text="MY APPLICATION" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
+            <TextBlock Text="Map Page" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"
+                       CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}" />
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            <Maps:MapControl />
+            <Maps:MapControl Name="MapControl" 
+                             MapServiceToken="{Binding ServiceToken}"
+                             Center="{Binding Path=MapLocation.Location}"
+                             LandmarksVisible = "False" TrafficFlowVisible = "False"
+                             ZoomLevel="12" PedestrianFeaturesVisible = "False">
+                <Maps:MapItemsControl>
+                    <!--Bind single point to collection  https://msdn.microsoft.com/en-us/magazine/dn890375.aspx-->
+                    <Grid
+                        Maps:MapControl.Location="{Binding Path=MapLocation.Location}"
+                        Maps:MapControl.NormalizedAnchorPoint="1.0,1.0"
+                        Background="DimGray">
+                        <TextBlock Margin="2,2,2,2"
+                            Text="{Binding Path=MapLocation.Label}" FontSize="16" />
+                    </Grid>
+                    <Grid
+                        Maps:MapControl.Location="{Binding Path=MapLocation.Location}"
+                        Maps:MapControl.NormalizedAnchorPoint="0.0, 0.0">
+                        <Ellipse Height="20" Width="20" Fill="Orange" Stroke="White" StrokeThickness="1" />
+                        <Ellipse Height="12" Width="12" Fill="Red"  Stroke="White" StrokeThickness="1" />
+                    </Grid>
+                </Maps:MapItemsControl>
+            </Maps:MapControl>
         </Grid>
     </Grid>
 </Page>
