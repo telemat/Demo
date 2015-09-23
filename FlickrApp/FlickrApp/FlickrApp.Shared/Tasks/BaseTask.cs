@@ -12,6 +12,7 @@
     internal abstract class BaseTask
         : IDisposable
     {
+        private bool _isDisposed;
         private readonly string _taskName;
         private readonly uint _timeoutInMs;
         private readonly Task _task;
@@ -30,12 +31,8 @@
 
         public void Dispose()
         {
-            if (! _task.IsCanceled && ! _task.IsCompleted)
-                Stop();
-
-            _cancellationTokenSource.Dispose();
-
-            Debug.WriteLine(_taskName + " task disposed");
+            Dispose(true);
+            GC.SuppressFinalize(this);            
         }
 
         public void Start()
@@ -83,5 +80,22 @@
         }
 
         protected abstract void DoUsefulWork();
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+                return;
+
+            _isDisposed = true;
+
+            if (!_task.IsCanceled && !_task.IsCompleted)
+                Stop();
+
+            // cleanup
+            _cancellationTokenSource.Dispose();
+            _wakeupEvent.Dispose();
+
+            Debug.WriteLine(_taskName + " task disposed");            
+        }
     }
 }

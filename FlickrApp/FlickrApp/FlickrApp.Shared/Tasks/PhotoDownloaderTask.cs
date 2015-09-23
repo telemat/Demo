@@ -27,7 +27,7 @@
                 SearchTerm = string.Empty;
             }
         }
-
+        
         private const int DefaultPageSize = 10;
 
         private readonly IMessengerService _messengerService;
@@ -39,6 +39,8 @@
         private SearchRequestStruct _searchRequest = new SearchRequestStruct(new object());
 
         private bool _isSearching;
+
+        private bool _isDisposed;
 
 
         public PhotoDownloaderTask()
@@ -53,6 +55,7 @@
                 PageSize = DefaultPageSize
             };
 
+            // listen for these events
             _messengerService.Register<SearchPhotoEvent>(OnSearchPhoto);
         }
 
@@ -107,6 +110,19 @@
             }
 
             WakeUp();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+                return;
+
+            _isDisposed = true;
+
+            base.Dispose(disposing);
+
+            // cleanup
+            _messengerService.Unregister<SearchPhotoEvent>();            
         }
     }
 }
