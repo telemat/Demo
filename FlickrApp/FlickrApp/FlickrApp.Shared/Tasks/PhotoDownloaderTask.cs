@@ -120,10 +120,10 @@
 
             _isDisposed = true;
 
-            base.Dispose(disposing);
-
             // cleanup
             _messengerService.Unregister<SearchPhotoEvent>();
+
+            base.Dispose(disposing);            
         }
     }
 }
