@@ -4,6 +4,7 @@
 
     using System;
     using System.Windows.Input;
+    using Windows.UI.Xaml;
     using Common;
     using Contracts;
     using Contracts.Events;
@@ -17,7 +18,7 @@
 
         public MainPageViewModel()
         {
-            
+            AuthenticationKey = "c4e9f03344dc58da787a58c8aaf9b9b5";
 
             _cmdAuthenticate = new Lazy<ICommand>(() => new RelayCommand(Authenticate));
         }

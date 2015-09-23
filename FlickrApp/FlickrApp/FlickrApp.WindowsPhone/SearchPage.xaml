@@ -4,19 +4,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FlickrApp"
     xmlns:viewModels="using:FlickrApp.ViewModels"
+    xmlns:converters="using:FlickrApp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <d:Page.DataContext>
-        <!--design only-->
+    <Page.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </Page.Resources>
+    
+    <d:Page.DataContext> <!--design only-->
         <viewModels:SearchPageViewModel />
     </d:Page.DataContext>
     <Page.DataContext>
         <viewModels:SearchPageViewModel />
     </Page.DataContext>
-
+    
     <Grid x:Name="LayoutRoot">
 
         <Grid.ChildrenTransitions>
@@ -39,19 +43,19 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            <Grid>
+            <Grid Visibility="{Binding IsSearchBarVisible, Converter={StaticResource BooleanToVisibility}}">
                 <TextBox x:Name="SearchTextBox"
                          HorizontalAlignment="Stretch"
                          PlaceholderText="Search"
                          Text="{Binding SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          KeyUp="SearchTextBox_KeyUp" />
-
-                <Button MinWidth="32" BorderThickness="0" 
+                <!--<Button MinWidth="0" Height="0" BorderThickness="0" Margin="0,0,0,0" Padding="10,0,10,0"
                         VerticalAlignment="Top" HorizontalAlignment="Right"
-                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Top"
+                        >
                     <Image Source="Assets/cancel.png"
                            Width="32" Height="32" />
-                </Button>
+                </Button>-->
             </Grid>
             <GridView x:Name="gridView" Margin="0,50,0,0"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -98,7 +102,8 @@
         <CommandBar IsSticky="True" x:Name="appBar">
             <CommandBar.PrimaryCommands>
                 <!-- Icon enums @ https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.symbol-->
-                <AppBarButton Icon="Find" IsCompact="True" Label="Search"/>
+                <AppBarButton Icon="Find" IsCompact="True" Label="Search"
+                              Command="{Binding ToggleSearchBarCommand}" />
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

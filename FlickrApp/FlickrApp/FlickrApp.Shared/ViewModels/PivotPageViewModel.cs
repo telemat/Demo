@@ -11,5 +11,7 @@
         : BaseViewModel
     {
         public ObservableCollection<PhotoViewModel> Photos => PhotoProvider.Instance.Photos;
+
+        public bool IsAppBarVisible { get; private set; }
     }
 }

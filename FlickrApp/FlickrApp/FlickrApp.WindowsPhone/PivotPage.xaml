@@ -6,9 +6,14 @@
     xmlns:viewModels="using:FlickrApp.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:FlickrApp.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </Page.Resources>
+    
     <d:Page.DataContext> <!--design only-->
         <viewModels:PivotPageViewModel />
     </d:Page.DataContext>
@@ -57,7 +62,7 @@
         </Grid>
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar IsSticky="True" x:Name="appBar">
+        <CommandBar Visibility="{Binding IsAppBarVisible, Converter={StaticResource BooleanToVisibility}}" IsSticky="True" x:Name="appBar">
             <CommandBar.PrimaryCommands>
                 <!-- Icon enums @ https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.symbol-->
                 <AppBarButton Icon="Map" IsCompact="True" Label="Map"/>

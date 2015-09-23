@@ -19,7 +19,7 @@ namespace FlickrApp
     /// </summary>
     public sealed partial class SearchPage : Page
     {
-        private readonly SearchPageViewModel _viewModel;
+        public SearchPageViewModel ViewModel { get; }
 
         public SearchPage()
         {
@@ -29,7 +29,7 @@ namespace FlickrApp
             NavigationHelper.LoadState += NavigationHelper_LoadState;
             NavigationHelper.SaveState += NavigationHelper_SaveState;
 
-            _viewModel = DataContext as SearchPageViewModel;
+            ViewModel = DataContext as SearchPageViewModel;
         }
 
         /// <summary>
@@ -95,20 +95,20 @@ namespace FlickrApp
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                if (string.IsNullOrWhiteSpace(_viewModel.SearchTerm))
-                    _viewModel.SearchTerm = string.Empty;
-                else if (_viewModel.SearchCommand.CanExecute(null))
-                    _viewModel.SearchCommand.Execute(null);
+                if (string.IsNullOrWhiteSpace(ViewModel.SearchTerm))
+                    ViewModel.SearchTerm = string.Empty;
+                else if (ViewModel.SearchCommand.CanExecute(null))
+                    ViewModel.SearchCommand.Execute(null);
                 
                 e.Handled = true;
             }
         }
 
-        private void GridViewItem_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            var element = sender as Grid;
-            element.Width = gridView.Width / 2;
-            element.Height = element.Width;
-        }
+        //private void GridViewItem_OnLoaded(object sender, RoutedEventArgs e)
+        //{
+        //    var element = sender as Grid;
+        //    element.Width = gridView.Width / 2;
+        //    element.Height = element.Width;
+        //}
     }
 }
