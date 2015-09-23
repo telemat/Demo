@@ -13,14 +13,14 @@
     <Page.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
     </Page.Resources>
-    
+
     <d:Page.DataContext> <!--design only-->
         <viewModels:SearchPageViewModel />
     </d:Page.DataContext>
     <Page.DataContext>
         <viewModels:SearchPageViewModel />
     </Page.DataContext>
-    
+
     <Grid x:Name="LayoutRoot">
 
         <Grid.ChildrenTransitions>
@@ -42,13 +42,15 @@
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            <Grid Visibility="{Binding IsSearchBarVisible, Converter={StaticResource BooleanToVisibility}}">
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,5">
+            <Grid Name="SearchBarGrid" VerticalAlignment="Top"
+                  Visibility="{Binding IsSearchBarVisible, Converter={StaticResource BooleanToVisibility}}"
+                  SizeChanged="SearchBarGrid_SizeChanged">
                 <TextBox x:Name="SearchTextBox"
                          HorizontalAlignment="Stretch"
                          PlaceholderText="Search"
                          Text="{Binding SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         KeyUp="SearchTextBox_KeyUp" />
+                         KeyUp="SearchTextBox_OnKeyUp" />
                 <!--<Button MinWidth="0" Height="0" BorderThickness="0" Margin="0,0,0,0" Padding="10,0,10,0"
                         VerticalAlignment="Top" HorizontalAlignment="Right"
                         HorizontalContentAlignment="Center" VerticalContentAlignment="Top"
@@ -57,7 +59,7 @@
                            Width="32" Height="32" />
                 </Button>-->
             </Grid>
-            <GridView x:Name="gridView" Margin="0,50,0,0"
+            <GridView x:Name="GridView"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       ItemsSource="{Binding Photos}">
                 <GridView.ItemTemplate>
@@ -66,7 +68,9 @@
                                 BorderThickness="2.0"
                                 Width="180" Height="200">
                             <Grid>
-                                <Image Source="{Binding ThumbnailUrl}" VerticalAlignment="Top" />
+                                <Image Source="{Binding ThumbnailUrl}"
+                                       Tapped="Image_OnTapped"
+                                       VerticalAlignment="Top" />
                                 <TextBlock Text="{Binding ThumbnailLabel}" FontSize="16" VerticalAlignment="Bottom"
                                            HorizontalAlignment="Center" />
                             </Grid>
@@ -74,36 +78,16 @@
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
-
-            <!--<TextBox x:Name="SearchTextBox" PlaceholderText="Search"
-                     Text="{Binding SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     KeyUp="SearchTextBox_KeyUp" />
-
-            <GridView x:Name="gridView" Margin="0,50,0,0"
-                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                      ItemsSource="{Binding Photos}">
-                <GridView.ItemTemplate>
-                    <DataTemplate>
-                        <Border Padding="2,2,2,2"
-                                BorderThickness="2.0"
-                                Width="180" Height="200">
-                            <Grid>
-                                <Image Source="{Binding ThumbnailUrl}" VerticalAlignment="Top" />
-                                <TextBlock Text="{Binding ThumbnailLabel}" FontSize="16" VerticalAlignment="Bottom"
-                                           HorizontalAlignment="Center" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>-->
         </Grid>
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar IsSticky="True" x:Name="appBar">
+        <CommandBar IsSticky="True" x:Name="AppBar">
             <CommandBar.PrimaryCommands>
                 <!-- Icon enums @ https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.symbol-->
-                <AppBarButton Icon="Find" IsCompact="True" Label="Search"
-                              Command="{Binding ToggleSearchBarCommand}" />
+                <AppBarButton Name="AppBarSearchButton"
+                              Icon="Find" IsCompact="True" Label="Search"
+                              Command="{Binding ToggleSearchBarCommand}"
+                              Click="AppBarSearchButton_OnClick" />
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

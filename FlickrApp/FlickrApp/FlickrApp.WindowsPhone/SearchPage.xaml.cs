@@ -124,17 +124,39 @@ namespace FlickrApp
             // logic is reversed because event is triggered before viewmodel is updated
             var isSearchBarVisible = ! ViewModel.IsSearchBarVisible;
 
+            var x = SearchBarGrid;
+
             if (isSearchBarVisible)
             {
                 // show the keyboard
                 SearchTextBox.Focus(FocusState.Programmatic);
 
                 SearchTextBox.SelectAll();
+
+                // shrink the gridview
+                if (! double.IsNaN(_searchBarGridHeight))
+                    GridView.Margin = new Thickness(0, 50, 0, 0);
             }
             else
             {
                 // hide keyboard
                 RemoveFocusOnTextbox(SearchTextBox);
+
+                // expand the gridview
+                GridView.Margin = new Thickness(0, 0, 0, 0);
+            }
+        }
+
+        private double _searchBarGridHeight = Double.NaN;
+
+        private void SearchBarGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Height > e.PreviousSize.Height)
+            {
+                _searchBarGridHeight = e.NewSize.Height - e.PreviousSize.Height;
+
+                // the bar is expanding, we must shrink the gridview
+                GridView.Margin = new Thickness(0, _searchBarGridHeight, 0, 0);
             }
         }
 
