@@ -8,5 +8,10 @@
         {
             Sender = sender;
         }
+
+        public override string ToString()
+        {
+            return nameof(SearchPhotoEndEvent);
+        }
     }
 }

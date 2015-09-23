@@ -8,5 +8,10 @@
         {
             IsSuccessful = isSuccessful;
         }
+
+        public override string ToString()
+        {
+            return nameof(AuthenticationEvent);
+        }
     }
 }

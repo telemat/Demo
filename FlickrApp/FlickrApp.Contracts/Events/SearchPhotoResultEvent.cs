@@ -20,5 +20,10 @@
             SearchId = searchId;
             Photos = photos;
         }
+
+        public override string ToString()
+        {
+            return nameof(SearchPhotoResultEvent);
+        }
     }
 }

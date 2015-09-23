@@ -14,5 +14,10 @@
             Sender = sender;
             SearchTerm = searchTerm;
         }
+
+        public override string ToString()
+        {
+            return nameof(SearchPhotoEvent);
+        }
     }
 }
