@@ -16,14 +16,7 @@
     internal class FlickrService
         : IFlickrService
     {
-        private readonly IMessengerService _messenger;
         private Flickr _flickr;
-        private Task _task;
-
-        public FlickrService(IMessengerService messenger)
-        {
-            _messenger = messenger;
-        }
 
         public bool Initialize(string authKey, string secretCode)
         {
@@ -63,13 +56,40 @@
                     Title = photo.Title,
                     Description = photo.Description,
                     ThumbnailUrl = photo.SquareThumbnailUrl,
-                    ImageUrl = photo.DoesLargeExist
-                        ? photo.LargeUrl
-                        : (photo.DoesMediumExist ? photo.MediumUrl : photo.SquareThumbnailUrl)
+                    ImageUrl = SelectImageUrl(photo),
+                    Location = GetLocation(photo)
                 });
             }
 
             return photoCol;
+        }
+
+        private static string SelectImageUrl(FlickrNet.Photo photo)
+        {
+            if (! string.IsNullOrEmpty(photo.Medium800Url))
+                return photo.Medium800Url;
+
+            if (! string.IsNullOrEmpty(photo.LargeUrl))
+                return photo.Medium800Url;
+
+            if (! string.IsNullOrEmpty(photo.Medium640Url))
+                return photo.Medium800Url;
+
+            if (! string.IsNullOrEmpty(photo.MediumUrl))
+                return photo.Medium800Url;
+
+            if (! string.IsNullOrEmpty(photo.OriginalUrl))
+                return photo.Medium800Url;
+
+            return photo.ThumbnailUrl;
+        }
+
+        private static GeoLocation GetLocation(FlickrNet.Photo photo)
+        {
+            if (double.IsNaN(photo.Latitude) || double.IsNaN(photo.Longitude))
+                return default(GeoLocation);
+
+            return new GeoLocation {Latitude = photo.Latitude, Longtitude = photo.Longitude};
         }
     }
 }

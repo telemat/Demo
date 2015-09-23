@@ -4,18 +4,28 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     #endregion
 
     internal static class StringExtensions
     {
-        public static string WrapAtSpace(this string text, int maxLength)
+        public static string WrapAtSpace(this string text, int maxLength, int maxLine = 0)
         {
             const char space = ' ';
 
             var lines = WrapAtChar(text, maxLength, space);
 
-            return string.Join(Environment.NewLine, lines);
+            if (maxLine <= 0) // no limit
+                return string.Join(Environment.NewLine, lines);
+
+            var theLines = lines as IList<string> ?? lines.ToList();
+            var str = string.Join(Environment.NewLine, theLines.Take(maxLine));
+
+            if (theLines.Count > maxLine)
+                str += " …";
+
+            return str;
         }
 
         public static IEnumerable<string> WrapAtChar(this string text, int maxLength, char chr)

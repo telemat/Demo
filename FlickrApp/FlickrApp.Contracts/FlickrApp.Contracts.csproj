@@ -45,6 +45,7 @@
     <Compile Include="Events\SearchPhotoResultEvent.cs" />
     <Compile Include="IFlickrService.cs" />
     <Compile Include="IMessengerService.cs" />
+    <Compile Include="Models\GeoLocation.cs" />
     <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\PhotoSearchOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

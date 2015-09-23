@@ -17,8 +17,10 @@ using Windows.UI.Xaml.Navigation;
 
 namespace FlickrApp
 {
+    using System.Diagnostics;
     using Contracts;
     using Contracts.Events;
+    using Contracts.Models;
     using ViewModels;
 
     /// <summary>
@@ -51,15 +53,38 @@ namespace FlickrApp
             // this event is handled for you.
         }
 
-        private void AuthenticateBtn_Click(object sender, RoutedEventArgs e)
+        async private void AuthenticateBtn_Click(object sender, RoutedEventArgs e)
         {
-            Resolver.Instance.Resolve<IMessengerService>().Register<AuthenticationEvent>(it =>
-            {
-                if (it.IsSuccessful)
-                    Frame.Navigate(typeof(SearchPage));
+            //Resolver.Instance.Resolve<IMessengerService>().Register<AuthenticationEvent>(it =>
+            //{
+            //    if (it.IsSuccessful)
+            //        Frame.Navigate(typeof(SearchPage));
 
-                Resolver.Instance.Resolve<IMessengerService>().Unregister<AuthenticationEvent>();
-            });
+            //    Resolver.Instance.Resolve<IMessengerService>().Unregister<AuthenticationEvent>();
+            //});
+
+            var flickrService = Resolver.Instance.Resolve<IFlickrService>();
+
+            try
+            {
+                var isSuccess = flickrService.Initialize("c4e9f03344dc58da787a58c8aaf9b9b5", "");
+                var result =
+                    await
+                        flickrService.SearchAsync(new PhotoSearchOption()
+                        {
+                            PageNumber = 1,
+                            PageSize = 10,
+                            SearchTerm = "Sunset"
+                        });
+
+                Debug.WriteLine(result.Count);
+
+                //messengerService.Notify(new AuthenticationEvent(isSuccess));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         private void button_Click(object sender, RoutedEventArgs e)

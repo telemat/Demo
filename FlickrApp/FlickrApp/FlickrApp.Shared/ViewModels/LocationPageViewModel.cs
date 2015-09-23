@@ -2,8 +2,6 @@
 {
     #region Imports
 
-    using System.Collections.ObjectModel;
-    using System.Linq;
     using Windows.Devices.Geolocation;
 
     #endregion
@@ -11,10 +9,8 @@
     public class LocationPageViewModel
         : BaseViewModel
     {
-        private Geopoint _mapCentre;
-
         public LocationPageViewModel()
-        {         
+        {
             //if (IsInDesignMode)
             {
                 PointOfInterest = new MapLocationViewModel

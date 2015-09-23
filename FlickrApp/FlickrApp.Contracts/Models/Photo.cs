@@ -9,5 +9,7 @@
         public string ThumbnailUrl { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public GeoLocation Location { get; set; }
     }
 }

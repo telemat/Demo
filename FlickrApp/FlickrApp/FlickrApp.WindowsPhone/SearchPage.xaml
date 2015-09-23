@@ -52,7 +52,7 @@
                                 Width="180" Height="200">
                             <Grid>
                                 <Image Source="{Binding ThumbnailUrl}" VerticalAlignment="Top" />
-                                <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Bottom" HorizontalAlignment="Center"  />
+                                <TextBlock Text="{Binding ThumbnailLabel}" FontSize="16" VerticalAlignment="Bottom" HorizontalAlignment="Center"  />
                             </Grid>
                         </Border>
                     </DataTemplate>
