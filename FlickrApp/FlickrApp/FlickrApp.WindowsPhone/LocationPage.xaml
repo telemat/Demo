@@ -1,4 +1,4 @@
-﻿<Page
+﻿<Page xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps" 
     x:Class="FlickrApp.LocationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -29,7 +29,7 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-
+            <Maps:MapControl />
         </Grid>
     </Grid>
 </Page>

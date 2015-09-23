@@ -56,5 +56,10 @@ namespace FlickrApp
         {
             Frame.Navigate(typeof(PivotPage));
         }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(LocationPage));
+        }
     }
 }
