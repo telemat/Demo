@@ -9,26 +9,20 @@
     using Contracts;
     using Contracts.Events;
     using Providers;
-    using Tasks;
 
     #endregion
 
     public class SearchPageViewModel
         : BaseViewModel
     {
-        private readonly PhotoDownloaderTask _photoDownloaderTask;
-
         private readonly IMessengerService _messengerService;
 
         private readonly Lazy<ICommand> _cmdSearch;
 
         public SearchPageViewModel()
         {
-            _photoDownloaderTask = new PhotoDownloaderTask();
             _messengerService = Resolver.Instance.Resolve<IMessengerService>();
             _cmdSearch = new Lazy<ICommand>(() => new RelayCommand(Search));
-
-            _photoDownloaderTask.Start();
 
             SearchTerm = "Mauritius";
         }

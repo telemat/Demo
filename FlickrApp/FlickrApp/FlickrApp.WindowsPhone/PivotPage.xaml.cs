@@ -28,15 +28,13 @@ namespace FlickrApp
     /// </summary>
     public sealed partial class PivotPage : Page
     {
-        private NavigationHelper navigationHelper;
-
         public PivotPage()
         {
             this.InitializeComponent();
 
-            this.navigationHelper = new NavigationHelper(this);
-            this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
-            this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+            this.NavigationHelper = new NavigationHelper(this);
+            this.NavigationHelper.LoadState += this.NavigationHelper_LoadState;
+            this.NavigationHelper.SaveState += this.NavigationHelper_SaveState;
         }
 
         public PivotPageViewModel ViewModel => DataContext as PivotPageViewModel;
@@ -44,10 +42,7 @@ namespace FlickrApp
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
         /// </summary>
-        public NavigationHelper NavigationHelper
-        {
-            get { return this.navigationHelper; }
-        }
+        public NavigationHelper NavigationHelper { get; }
 
         /// <summary>
         /// Populates the page with content passed during navigation.  Any saved state is also
@@ -93,12 +88,12 @@ namespace FlickrApp
         /// handlers that cannot cancel the navigation request.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedTo(e);
+            this.NavigationHelper.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedFrom(e);
+            this.NavigationHelper.OnNavigatedFrom(e);
         }
 
         #endregion

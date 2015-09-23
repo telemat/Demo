@@ -20,6 +20,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace FlickrApp
 {
+    using Tasks;
+
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
@@ -29,6 +31,8 @@ namespace FlickrApp
         private TransitionCollection transitions;
 #endif
 
+        private readonly PhotoDownloaderTask _photoDownloaderTask;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -37,6 +41,15 @@ namespace FlickrApp
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+
+
+            // register DI
+            var startup = new Startup();
+            startup.Configure();
+
+            // instantiate task
+            _photoDownloaderTask = new PhotoDownloaderTask();
+            _photoDownloaderTask.Start();
         }
 
         /// <summary>
@@ -53,12 +66,7 @@ namespace FlickrApp
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
-
-
-            // register DI
-            var startup = new Startup();
-            startup.Configure();
-
+            
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
