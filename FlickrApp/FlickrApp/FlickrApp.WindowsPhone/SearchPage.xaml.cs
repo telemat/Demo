@@ -116,15 +116,18 @@ namespace FlickrApp
 
         private void Image_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (ViewModel.ThumbnailTappedCommand.CanExecute(null))
+            {
+                ViewModel.ThumbnailTappedCommand.Execute(null);
+            }
+
+            e.Handled = true;
         }
 
         private void AppBarSearchButton_OnClick(object sender, RoutedEventArgs e)
         {
             // logic is reversed because event is triggered before viewmodel is updated
             var isSearchBarVisible = ! ViewModel.IsSearchBarVisible;
-
-            var x = SearchBarGrid;
 
             if (isSearchBarVisible)
             {
