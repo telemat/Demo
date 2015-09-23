@@ -5,7 +5,6 @@ namespace FlickrApp
     #region Imports
 
     using System;
-    using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Input;
     using Windows.UI.Xaml.Navigation;
@@ -95,11 +94,13 @@ namespace FlickrApp
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                if (string.IsNullOrWhiteSpace(ViewModel.SearchTerm))
-                    ViewModel.SearchTerm = string.Empty;
-                else if (ViewModel.SearchCommand.CanExecute(null))
+                if (ViewModel.SearchCommand.CanExecute(null))
+                {
                     ViewModel.SearchCommand.Execute(null);
-                
+
+                    Windows.UI.ViewManagement.InputPane.GetForCurrentView().TryHide();
+                }
+
                 e.Handled = true;
             }
         }

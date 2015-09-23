@@ -2,7 +2,6 @@
 {
     #region Imports
 
-    using System;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
     using Common;
@@ -15,19 +14,14 @@
     public class SearchPageViewModel
         : BaseViewModel
     {
-        private readonly Lazy<ICommand> _cmdSearch;
-
-        private readonly Lazy<ICommand> _cmdToggleSearchBar;
         private readonly IMessengerService _messengerService;
 
         public SearchPageViewModel()
         {
             _messengerService = Resolver.Instance.Resolve<IMessengerService>();
 
-            _cmdSearch = new Lazy<ICommand>(() => new RelayCommand(Search));
-            _cmdToggleSearchBar = new Lazy<ICommand>(() => new RelayCommand(ToggleSearchBar));
-
-            SearchTerm = "Mauritius";
+            SearchCommand = new RelayCommand(Search, CanExecuteSearch);
+            ToggleSearchBarCommand = new RelayCommand(ToggleSearchBar);
         }
 
         public string SearchTerm { get; set; }
@@ -36,23 +30,49 @@
         public ObservableCollection<PhotoViewModel> Photos => PhotoProvider.Instance.Photos;
 
 
-        public ICommand SearchCommand => _cmdSearch.Value;
+        public ICommand SearchCommand { get; }
 
-        public ICommand ToggleSearchBarCommand => _cmdToggleSearchBar.Value;
+        public ICommand ToggleSearchBarCommand { get; }
 
+
+        private bool CanExecuteSearch()
+        {
+            if (string.IsNullOrWhiteSpace(SearchTerm))
+            {
+                SearchTerm = string.Empty;
+                return false;
+            }
+
+            return true;
+        }
 
         private void Search()
         {
-            //var flickrService = Resolver.Instance.Resolve<IFlickrService>();
-
-            //flickrService.Search(SearchTerm);
-
             _messengerService.Notify(new SearchPhotoEvent(this, SearchTerm));
         }
 
         private void ToggleSearchBar()
         {
             IsSearchBarVisible = ! IsSearchBarVisible;
+
+            if (IsSearchBarVisible)
+                OnSearchBarShown();
+            else
+                OnSearchBarHidden();
+        }
+
+        private void OnSearchBarShown()
+        {
+        }
+
+        private void OnSearchBarHidden()
+        {
+            StopSearch();
+        }
+
+        private void StopSearch()
+        {
+            _messengerService.Notify(new SearchPhotoEndEvent(this));
         }
     }
 }

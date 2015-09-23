@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\AuthenticationEvent.cs" />
+    <Compile Include="Events\SearchPhotoEndEvent.cs" />
     <Compile Include="Events\SearchPhotoEvent.cs" />
     <Compile Include="Events\SearchPhotoResultEvent.cs" />
     <Compile Include="IFlickrService.cs" />

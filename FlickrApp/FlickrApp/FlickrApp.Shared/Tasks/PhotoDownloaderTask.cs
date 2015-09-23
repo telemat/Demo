@@ -3,6 +3,7 @@
     #region Imports
 
     using System;
+    using System.Threading;
     using Contracts;
     using Contracts.Events;
     using Contracts.Models;
@@ -28,7 +29,7 @@
             }
         }
 
-        private const int DefaultPageSize = 10;
+        private const int DefaultPageSize = 6;
 
         private readonly IMessengerService _messengerService;
 
@@ -38,7 +39,7 @@
 
         private SearchRequestStruct _searchRequest = new SearchRequestStruct(new object());
 
-        private bool _isSearching;
+        private readonly ManualResetEventSlim _isSearching;
 
         private bool _isDisposed;
 
@@ -55,8 +56,11 @@
                 PageSize = DefaultPageSize
             };
 
+            _isSearching = new ManualResetEventSlim(false);
+
             // listen for these events
             _messengerService.Register<SearchPhotoEvent>(OnSearchPhoto);
+            _messengerService.Register<SearchPhotoEndEvent>(OnSearchPhotoEnd);
         }
 
         protected override void DoUsefulWork()
@@ -71,9 +75,9 @@
                 }
 
                 _searchOption.PageNumber = 0;
-                _isSearching = true;
+                _isSearching.Set();
             }
-            else if (! _isSearching)
+            else if (! _isSearching.IsSet)
                 return;
 
             ++_searchOption.PageNumber;
@@ -82,7 +86,9 @@
 
             // check if this is the last page
             if (result.Count < _searchOption.PageSize)
-                _isSearching = false;
+            {
+                _isSearching.Reset();
+            }
 
             Guid currentSearchId;
 
@@ -113,6 +119,11 @@
                 Resume();
         }
 
+        private void OnSearchPhotoEnd(SearchPhotoEndEvent obj)
+        {
+            Pause();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (_isDisposed)
@@ -123,7 +134,7 @@
             // cleanup
             _messengerService.Unregister<SearchPhotoEvent>();
 
-            base.Dispose(disposing);            
+            base.Dispose(disposing);
         }
     }
 }
