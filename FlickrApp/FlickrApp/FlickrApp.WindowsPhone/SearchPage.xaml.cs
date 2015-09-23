@@ -5,6 +5,7 @@ namespace FlickrApp
     #region Imports
 
     using System;
+    using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Input;
     using Windows.UI.Xaml.Navigation;
@@ -90,21 +91,55 @@ namespace FlickrApp
 
         #endregion
 
-        private void SearchTextBox_KeyUp(object sender, KeyRoutedEventArgs e)
+        private void SearchTextBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 if (ViewModel.SearchCommand.CanExecute(null))
                 {
                     ViewModel.SearchCommand.Execute(null);
-
-                    Windows.UI.ViewManagement.InputPane.GetForCurrentView().TryHide();
                 }
 
                 e.Handled = true;
             }
         }
 
+        private void RemoveFocusOnTextbox(TextBox textBox)
+        {
+            // this function is just a hack to get the keyboard to hide by itself
+            var isTabStop = textBox.IsTabStop;
+            textBox.IsTabStop = false;
+            textBox.IsEnabled = false;
+            textBox.IsEnabled = true;
+            textBox.IsTabStop = isTabStop;
+        }
+
+        private void Image_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AppBarSearchButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            // logic is reversed because event is triggered before viewmodel is updated
+            var isSearchBarVisible = ! ViewModel.IsSearchBarVisible;
+
+            if (isSearchBarVisible)
+            {
+                // show the keyboard
+                SearchTextBox.Focus(FocusState.Programmatic);
+
+                SearchTextBox.SelectAll();
+            }
+            else
+            {
+                // hide keyboard
+                RemoveFocusOnTextbox(SearchTextBox);
+            }
+        }
+
+
+        // TODO - adjust the image widths
         //private void GridViewItem_OnLoaded(object sender, RoutedEventArgs e)
         //{
         //    var element = sender as Grid;

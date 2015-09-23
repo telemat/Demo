@@ -34,6 +34,8 @@
 
         public ICommand ToggleSearchBarCommand { get; }
 
+        public ICommand ThumbnailTappedCommand { get; }
+
 
         private bool CanExecuteSearch()
         {
