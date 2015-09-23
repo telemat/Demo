@@ -3,7 +3,6 @@
     #region Imports
 
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using System.Windows.Input;
     using Common;
     using Contracts;
@@ -27,6 +26,8 @@
         }
 
         #region Properties
+
+        public bool IsWaitingForUserInput { get; private set; }
 
         public bool IsSearchInProgress { get; private set; }
 
@@ -67,11 +68,14 @@
 
         private void OnSearchBarShown()
         {
+            IsWaitingForUserInput = true;
         }
 
         private void OnSearchBarHidden()
         {
             StopSearch();
+
+            IsWaitingForUserInput = false;
         }
 
         private void StopSearch()
@@ -92,9 +96,6 @@
 
         private void OnThumbnailTapped()
         {
-            
-
-
         }
 
         private bool CanAcceptThumbnailTap()
