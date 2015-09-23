@@ -9,7 +9,8 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <d:Page.DataContext> <!--design only-->
+    <d:Page.DataContext>
+        <!--design only-->
         <viewModels:SearchPageViewModel />
     </d:Page.DataContext>
     <Page.DataContext>
@@ -38,27 +39,67 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <Grid>
+                <TextBox x:Name="SearchTextBox"
+                         HorizontalAlignment="Stretch"
+                         PlaceholderText="Search"
+                         Text="{Binding SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         KeyUp="SearchTextBox_KeyUp" />
 
-            <TextBox x:Name="SearchTextBox" PlaceholderText="Search"
-                     Text="{Binding SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     KeyUp="SearchTextBox_KeyUp" />
+                <Button MinWidth="32" BorderThickness="0" 
+                        VerticalAlignment="Top" HorizontalAlignment="Right"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <Image Source="Assets/cancel.png"
+                           Width="32" Height="32" />
+                </Button>
+            </Grid>
             <GridView x:Name="gridView" Margin="0,50,0,0"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       ItemsSource="{Binding Photos}">
                 <GridView.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="2,2,2,2"
-                                 BorderThickness="2.0"
+                                BorderThickness="2.0"
                                 Width="180" Height="200">
                             <Grid>
                                 <Image Source="{Binding ThumbnailUrl}" VerticalAlignment="Top" />
-                                <TextBlock Text="{Binding ThumbnailLabel}" FontSize="16" VerticalAlignment="Bottom" HorizontalAlignment="Center"  />
+                                <TextBlock Text="{Binding ThumbnailLabel}" FontSize="16" VerticalAlignment="Bottom"
+                                           HorizontalAlignment="Center" />
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
-        </Grid>
 
+            <!--<TextBox x:Name="SearchTextBox" PlaceholderText="Search"
+                     Text="{Binding SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     KeyUp="SearchTextBox_KeyUp" />
+
+            <GridView x:Name="gridView" Margin="0,50,0,0"
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      ItemsSource="{Binding Photos}">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="2,2,2,2"
+                                BorderThickness="2.0"
+                                Width="180" Height="200">
+                            <Grid>
+                                <Image Source="{Binding ThumbnailUrl}" VerticalAlignment="Top" />
+                                <TextBlock Text="{Binding ThumbnailLabel}" FontSize="16" VerticalAlignment="Bottom"
+                                           HorizontalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>-->
+        </Grid>
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar IsSticky="True" x:Name="appBar">
+            <CommandBar.PrimaryCommands>
+                <!-- Icon enums @ https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.symbol-->
+                <AppBarButton Icon="Find" IsCompact="True" Label="Search"/>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

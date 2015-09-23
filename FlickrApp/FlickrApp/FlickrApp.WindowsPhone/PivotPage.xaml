@@ -56,4 +56,12 @@
             </Pivot>
         </Grid>
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar IsSticky="True" x:Name="appBar">
+            <CommandBar.PrimaryCommands>
+                <!-- Icon enums @ https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.symbol-->
+                <AppBarButton Icon="Map" IsCompact="True" Label="Map"/>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>
