@@ -61,5 +61,10 @@ namespace FlickrApp
                 Resolver.Instance.Resolve<IMessengerService>().Unregister<AuthenticationEvent>();
             });
         }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(LocationPage));
+        }
     }
 }

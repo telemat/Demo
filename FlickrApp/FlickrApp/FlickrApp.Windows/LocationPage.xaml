@@ -47,6 +47,6 @@
             <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
 				IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
         </Grid>
-        <Maps:Map Height="618" Grid.Row="1" Width="1366" Margin="0,0,0,10"/>
+        <Maps:Map Height="618" Grid.Row="1" Width="1366" Margin="0,0,0,10" />
     </Grid>
 </Page>

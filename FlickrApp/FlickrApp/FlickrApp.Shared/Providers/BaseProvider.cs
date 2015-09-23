@@ -9,13 +9,11 @@
 
     public abstract class BaseProvider
     {
+        protected readonly bool IsInDesignMode = Windows.ApplicationModel.DesignMode.DesignModeEnabled;
         protected readonly SynchronizationContext UIContext;
-        protected readonly bool IsInDesignMode;
-
+        
         protected BaseProvider()
         {
-            IsInDesignMode = Windows.ApplicationModel.DesignMode.DesignModeEnabled;
-
             if (! IsInDesignMode)
             {
                 // it is assumed that providers are instantiated by the main thread (UI)

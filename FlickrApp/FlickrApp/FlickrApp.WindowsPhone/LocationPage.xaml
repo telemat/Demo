@@ -47,10 +47,12 @@
                     <!--Bind single point to collection  https://msdn.microsoft.com/en-us/magazine/dn890375.aspx-->
                     <Grid
                         Maps:MapControl.Location="{Binding Path=MapLocation.Location}"
-                        Maps:MapControl.NormalizedAnchorPoint="1.0,1.0"
-                        Background="DimGray">
-                        <TextBlock Margin="2,2,2,2"
-                            Text="{Binding Path=MapLocation.Label}" FontSize="16" />
+                        Maps:MapControl.NormalizedAnchorPoint="0.5,-1.0"
+                        Background="DarkSlateGray">
+                        <TextBlock Margin="5,2,5,2" VerticalAlignment="Bottom"
+                            Text="{Binding Path=MapLocation.Label}" 
+                                   Foreground="WhiteSmoke"
+                                   FontSize="16"/>
                     </Grid>
                     <Grid
                         Maps:MapControl.Location="{Binding Path=MapLocation.Location}"

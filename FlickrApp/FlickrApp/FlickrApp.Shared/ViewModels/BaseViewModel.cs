@@ -9,5 +9,6 @@
     [ImplementPropertyChanged]
     public abstract class BaseViewModel
     {
+        protected readonly bool IsInDesignMode = Windows.ApplicationModel.DesignMode.DesignModeEnabled;        
     }
 }

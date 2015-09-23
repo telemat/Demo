@@ -20,6 +20,8 @@
             <TextBox Text="{Binding SecretCode, Mode=TwoWay}"
                      Margin="0" TextWrapping="Wrap" VerticalAlignment="Stretch"/>
             <Button x:Name="AuthenticateBtn" Margin="0,30,0,0" Command="{Binding AuthenticateCommand}" Content="Authenticate" HorizontalAlignment="Stretch" VerticalAlignment="Top" Click="AuthenticateBtn_Click" />
+            <Button x:Name="button" Content="Location" HorizontalAlignment="Stretch"  VerticalAlignment="Top" Click="button_Click"/>
         </StackPanel>
+        
     </Grid>
 </Page>
