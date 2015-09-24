@@ -44,7 +44,9 @@
             {
                 Text = option.SearchTerm,
                 Page = option.PageNumber,
-                PerPage = option.PageSize
+                PerPage = option.PageSize,
+                HasGeo = true,
+                Extras = PhotoSearchExtras.Geo
             });
 
             var photoCol = new Collection<Photo>();
@@ -86,10 +88,16 @@
 
         private static GeoLocation GetLocation(FlickrNet.Photo photo)
         {
-            if (double.IsNaN(photo.Latitude) || double.IsNaN(photo.Longitude))
+            if ((photo.Accuracy == GeoAccuracy.None) || 
+                (double.IsNaN(photo.Latitude) && double.IsNaN(photo.Longitude) && photo.DateTaken == DateTime.MinValue))
                 return default(GeoLocation);
 
-            return new GeoLocation {Latitude = photo.Latitude, Longtitude = photo.Longitude};
+            return new GeoLocation
+            {
+                Timestamp = photo.DateTaken,
+                Latitude = photo.Latitude,
+                Longtitude = photo.Longitude
+            };
         }
     }
 }
