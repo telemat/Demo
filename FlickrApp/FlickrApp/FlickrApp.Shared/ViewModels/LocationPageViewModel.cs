@@ -11,7 +11,7 @@
     {
         public LocationPageViewModel()
         {
-            //if (IsInDesignMode)
+            if (IsInDesignMode)
             {
                 PointOfInterest = new MapLocationViewModel
                 {
@@ -30,6 +30,6 @@
                 ""
             ;
 
-        public MapLocationViewModel PointOfInterest { get; }
+        public MapLocationViewModel PointOfInterest { get; set; }
     }
 }

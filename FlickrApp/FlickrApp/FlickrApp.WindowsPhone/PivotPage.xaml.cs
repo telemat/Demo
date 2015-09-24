@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace FlickrApp
 {
+    using System.Diagnostics;
     using Contracts.Models;
     using ViewModels;
 
@@ -89,6 +90,9 @@ namespace FlickrApp
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.NavigationHelper.OnNavigatedTo(e);
+
+            var itemVM = e.Parameter as PhotoViewModel;
+            ViewModel.CurrentItem = itemVM;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -97,5 +101,12 @@ namespace FlickrApp
         }
 
         #endregion
+
+        private void MapButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Debug.Assert(ViewModel.CurrentItem != null);
+
+            Frame.Navigate(typeof(LocationPage), ViewModel.CurrentItem.Location);
+        }
     }
 }

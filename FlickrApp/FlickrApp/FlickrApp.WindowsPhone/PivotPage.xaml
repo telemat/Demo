@@ -43,7 +43,8 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            <Pivot ItemsSource="{Binding Photos}">
+            <Pivot ItemsSource="{Binding Photos}" 
+                   SelectedItem="{Binding CurrentItem}">
                 <Pivot.HeaderTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Title}" />
@@ -65,7 +66,7 @@
         <CommandBar Visibility="{Binding IsAppBarVisible, Converter={StaticResource BooleanToVisibility}}" IsSticky="True" x:Name="appBar">
             <CommandBar.PrimaryCommands>
                 <!-- Icon enums @ https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.symbol-->
-                <AppBarButton Icon="Map" IsCompact="True" Label="Map"/>
+                <AppBarButton Name="MapButton" Icon="Map" IsCompact="True" Label="Map" Click="MapButton_OnClick"/>
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

@@ -27,7 +27,7 @@
 
         #region Properties
 
-        public bool IsWaitingForUserInput { get; private set; }
+        public bool IsAppBarMinimised { get; set; }
 
         public bool IsSearchInProgress { get; private set; }
 
@@ -68,14 +68,14 @@
 
         private void OnSearchBarShown()
         {
-            IsWaitingForUserInput = true;
+            IsAppBarMinimised = true;
         }
 
         private void OnSearchBarHidden()
         {
             StopSearch();
 
-            IsWaitingForUserInput = false;
+            IsAppBarMinimised = false;
         }
 
         private void StopSearch()

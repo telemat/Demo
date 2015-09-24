@@ -64,17 +64,19 @@
             </Grid>
             <GridView x:Name="GridView"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                      ItemsSource="{Binding Photos}">
+                      ItemsSource="{Binding Photos}" 
+                      ItemClick="GridView_OnItemClick" IsItemClickEnabled="True">
                 <GridView.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="2,2,2,2"
                                 BorderThickness="2.0"
                                 Width="180" Height="200">
-                            <Grid>
+                            <Grid><!--Tapped="Image_OnTapped"-->
                                 <Image Source="{Binding ThumbnailUrl}"
-                                       Tapped="Image_OnTapped"
+                                       
                                        VerticalAlignment="Top" />
-                                <TextBlock Text="{Binding ThumbnailLabel}" FontSize="16" VerticalAlignment="Bottom"
+                                <TextBlock Text="{Binding ThumbnailLabel}" 
+                                           FontSize="16" VerticalAlignment="Bottom"
                                            HorizontalAlignment="Center" />
                             </Grid>
                         </Border>
@@ -84,8 +86,8 @@
         </Grid>
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar x:Name="AppBar" IsSticky="True"
-                    ClosedDisplayMode="{Binding IsWaitingForUserInput, Converter={StaticResource BooleanToClosedDisplayMode}}">
+        <CommandBar x:Name="AppBar" IsOpen="False" IsSticky="True"
+                    ClosedDisplayMode="{Binding IsAppBarMinimised, Converter={StaticResource BooleanToClosedDisplayMode}}">
             <CommandBar.PrimaryCommands>
                 <!-- Icon enums @ https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.symbol-->
                 <AppBarButton Name="AppBarSearchButton"

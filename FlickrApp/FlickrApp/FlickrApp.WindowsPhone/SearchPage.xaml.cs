@@ -5,6 +5,7 @@ namespace FlickrApp
     #region Imports
 
     using System;
+    using System.Diagnostics;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Input;
@@ -28,7 +29,7 @@ namespace FlickrApp
 
             NavigationHelper = new NavigationHelper(this);
             NavigationHelper.LoadState += NavigationHelper_LoadState;
-            NavigationHelper.SaveState += NavigationHelper_SaveState;
+            NavigationHelper.SaveState += NavigationHelper_SaveState;            
 
             ViewModel = DataContext as SearchPageViewModel;
         }
@@ -123,9 +124,21 @@ namespace FlickrApp
             if (ViewModel.ThumbnailTappedCommand.CanExecute(null))
             {
                 ViewModel.ThumbnailTappedCommand.Execute(null);
+
+                Frame.Navigate(typeof(PivotPage));
             }
 
             e.Handled = true;
+        }
+
+        private void GridView_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            Debug.Assert(e.ClickedItem != null);
+
+            if (ViewModel.ThumbnailTappedCommand.CanExecute(null))
+            {
+                Frame.Navigate(typeof(PivotPage), e.ClickedItem);
+            }
         }
 
         private void AppBarSearchButton_OnClick(object sender, RoutedEventArgs e)
@@ -166,7 +179,6 @@ namespace FlickrApp
                 GridView.Margin = new Thickness(0, _searchBarGridHeight, 0, 0);
             }
         }
-
 
         // TODO - adjust the image widths
         //private void GridViewItem_OnLoaded(object sender, RoutedEventArgs e)

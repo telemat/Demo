@@ -20,6 +20,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace FlickrApp
 {
+    using ViewModels;
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -36,6 +38,8 @@ namespace FlickrApp
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
         }
+
+        public LocationPageViewModel ViewModel => DataContext as LocationPageViewModel;
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
@@ -90,6 +94,8 @@ namespace FlickrApp
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.navigationHelper.OnNavigatedTo(e);
+
+            ViewModel.PointOfInterest = e.Parameter as MapLocationViewModel;            
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
