@@ -44,7 +44,7 @@
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
             <Pivot ItemsSource="{Binding Photos}" 
-                   SelectedItem="{Binding CurrentItem}">
+                   SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="Pivot_OnSelectionChanged">
                 <Pivot.HeaderTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Title}" />

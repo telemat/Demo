@@ -52,9 +52,10 @@
             var photoCol = new Collection<Photo>();
 
             foreach (var photo in photos)
-            {
+            {                
                 photoCol.Add(new Photo
                 {
+                    Id = photo.PhotoId,
                     Title = photo.Title,
                     Description = photo.Description,
                     ThumbnailUrl = photo.SquareThumbnailUrl,

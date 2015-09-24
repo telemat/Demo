@@ -12,8 +12,8 @@
     {
         public ObservableCollection<PhotoViewModel> Photos => PhotoProvider.Instance.Photos;
 
-        public PhotoViewModel CurrentItem { get; set; }
+        public PhotoViewModel SelectedItem { get; set; }
 
-        public bool IsAppBarVisible => CurrentItem?.Location != null;
+        public bool IsAppBarVisible => SelectedItem?.Location != null;
     }
 }

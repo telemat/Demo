@@ -74,7 +74,7 @@ namespace FlickrApp
                         {
                             PageNumber = 1,
                             PageSize = 10,
-                            SearchTerm = "Sunset"
+                            SearchTerm = "Mauritius"
                         });
 
                 Debug.WriteLine(result.Count);

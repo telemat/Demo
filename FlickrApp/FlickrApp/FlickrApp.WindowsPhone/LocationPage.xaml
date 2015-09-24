@@ -42,7 +42,7 @@
                              MapServiceToken="{Binding ServiceToken}"
                              Center="{Binding PointOfInterest.Location}"
                              LandmarksVisible="False" TrafficFlowVisible="False"
-                             ZoomLevel="15" PedestrianFeaturesVisible="False">
+                             ZoomLevel="12" PedestrianFeaturesVisible="False">
                 <Image Source="Assets/mappin.png" Height="25"
                        Maps:MapControl.Location="{Binding PointOfInterest.Location}"
                        Maps:MapControl.NormalizedAnchorPoint="0.5, 0.5" />

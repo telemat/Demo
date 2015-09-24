@@ -92,7 +92,7 @@ namespace FlickrApp
             this.NavigationHelper.OnNavigatedTo(e);
 
             var itemVM = e.Parameter as PhotoViewModel;
-            ViewModel.CurrentItem = itemVM;
+            ViewModel.SelectedItem = itemVM;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -104,9 +104,16 @@ namespace FlickrApp
 
         private void MapButton_OnClick(object sender, RoutedEventArgs e)
         {
-            Debug.Assert(ViewModel.CurrentItem != null);
+            Debug.Assert(ViewModel.SelectedItem != null);
 
-            Frame.Navigate(typeof(LocationPage), ViewModel.CurrentItem.Location);
+
+            Frame.Navigate(typeof(LocationPage), ViewModel.SelectedItem.Location);
+        }
+
+        private void Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var pivot = sender as Pivot;
+            Debug.WriteLine("#Pivot selected item = " + (pivot.SelectedItem as PhotoViewModel));
         }
     }
 }

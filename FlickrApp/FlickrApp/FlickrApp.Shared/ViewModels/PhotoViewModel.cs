@@ -14,6 +14,9 @@
 
         private string _thumbnailLabel;
 
+
+        public string Id { get; set; }
+
         public string Title { get; set; }
 
         public string Description { get; set; }
@@ -24,12 +27,16 @@
 
         public MapLocationViewModel Location { get; set; }
 
+        public string ThumbnailLabel => _thumbnailLabel ?? (_thumbnailLabel = Title.WrapAtSpace(WrapCharacterCount, 1));
+
+
         public PhotoViewModel()
         {
         }
 
         public PhotoViewModel(Photo photo)
         {
+            Id = photo.Id;
             Title = photo.Title;
             Description = photo.Description;
             ThumbnailUrl = photo.ThumbnailUrl;
@@ -39,6 +46,9 @@
                 Location = new MapLocationViewModel(photo.Location, Title);
         }
 
-        public string ThumbnailLabel => _thumbnailLabel ?? (_thumbnailLabel = Title.WrapAtSpace(WrapCharacterCount, 1));
+        public override string ToString()
+        {
+            return Id ?? "Uninitialized photo";
+        }
     }
 }
