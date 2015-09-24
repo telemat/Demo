@@ -29,9 +29,16 @@ namespace FlickrApp
 
             NavigationHelper = new NavigationHelper(this);
             NavigationHelper.LoadState += NavigationHelper_LoadState;
-            NavigationHelper.SaveState += NavigationHelper_SaveState;            
+            NavigationHelper.SaveState += NavigationHelper_SaveState;
 
-            ViewModel = DataContext as SearchPageViewModel;
+            if (! Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                if (ViewModel == null)
+                {
+                    ViewModel = Resolver.Instance.Resolve<SearchPageViewModel>();
+                    DataContext = ViewModel;
+                }
+            }
         }
 
         /// <summary>
@@ -84,11 +91,24 @@ namespace FlickrApp
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             NavigationHelper.OnNavigatedTo(e);
+
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                if (ViewModel.ResumeSearchCommand.CanExecute(null))
+                {
+                    ViewModel.ResumeSearchCommand.Execute(null);
+                }
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             NavigationHelper.OnNavigatedFrom(e);
+
+            if (ViewModel.PauseSearchCommand.CanExecute(null))
+            {
+                ViewModel.PauseSearchCommand.Execute(null);
+            }
         }
 
         #endregion
@@ -119,26 +139,16 @@ namespace FlickrApp
             textBox.IsTabStop = isTabStop;
         }
 
-        private void Image_OnTapped(object sender, TappedRoutedEventArgs e)
-        {
-            if (ViewModel.ThumbnailTappedCommand.CanExecute(null))
-            {
-                ViewModel.ThumbnailTappedCommand.Execute(null);
-
-                Frame.Navigate(typeof(PivotPage));
-            }
-
-            e.Handled = true;
-        }
-
         private void GridView_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            Debug.Assert(e.ClickedItem != null);
+            var selectedItem = e.ClickedItem as PhotoViewModel;
 
-            if (ViewModel.ThumbnailTappedCommand.CanExecute(null))
-            {
-                Frame.Navigate(typeof(PivotPage), e.ClickedItem);
-            }
+            Debug.Assert(selectedItem != null);
+
+            // Dispatcher is required to fix bug causing random crash of type (0xc0000005) 'Access violation'
+            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //    Frame.Navigate(typeof (PivotPage), new PivotPage.Parameter(ViewModel.Photos, selectedItem));
+            Frame.Navigate(typeof (PivotPage), new PivotPage.Parameter(ViewModel.Photos, selectedItem));
         }
 
         private void AppBarSearchButton_OnClick(object sender, RoutedEventArgs e)

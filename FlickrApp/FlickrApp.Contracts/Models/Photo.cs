@@ -2,6 +2,8 @@
 {
     public class Photo
     {
+        public uint SearchRequestId { get; set; }
+
         public string Id { get; set; }
 
         public string Title { get; set; }

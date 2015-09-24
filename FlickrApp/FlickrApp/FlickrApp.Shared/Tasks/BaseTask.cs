@@ -96,6 +96,10 @@
                         break;
                 }
             }
+            catch (AggregateException ex)
+            {
+                Debug.WriteLine("Task {0} failed, {1}", _taskName, ex.Flatten().Message);
+            }
             catch (Exception ex)
             {
                 Debug.WriteLine("Task {0} failed, {1}", _taskName, ex.Message);

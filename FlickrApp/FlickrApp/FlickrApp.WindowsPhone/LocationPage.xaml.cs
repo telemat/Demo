@@ -1,53 +1,48 @@
-﻿using FlickrApp.Common;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Display;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+﻿ // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace FlickrApp
 {
+    #region Imports
+
+    using System;
+    using System.Diagnostics;
+    using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Navigation;
+    using Common;
     using ViewModels;
+
+    #endregion
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class LocationPage 
+    public sealed partial class LocationPage
         : Page
     {
-        private NavigationHelper navigationHelper;
+        public LocationPageViewModel ViewModel { get; }
 
         public LocationPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.navigationHelper = new NavigationHelper(this);
-            this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
-            this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+            NavigationHelper = new NavigationHelper(this);
+            NavigationHelper.LoadState += NavigationHelper_LoadState;
+            NavigationHelper.SaveState += NavigationHelper_SaveState;
+
+            if (! Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                if (ViewModel == null)
+                {
+                    ViewModel = Resolver.Instance.Resolve<LocationPageViewModel>();
+                    DataContext = ViewModel;
+                }
+            }
         }
-
-        public LocationPageViewModel ViewModel => DataContext as LocationPageViewModel;
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
         /// </summary>
-        public NavigationHelper NavigationHelper
-        {
-            get { return this.navigationHelper; }
-        }
+        public NavigationHelper NavigationHelper { get; }
 
         /// <summary>
         /// Populates the page with content passed during navigation.  Any saved state is also
@@ -93,14 +88,22 @@ namespace FlickrApp
         /// handlers that cannot cancel the navigation request.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedTo(e);
+            NavigationHelper.OnNavigatedTo(e);
 
-            ViewModel.PointOfInterest = e.Parameter as MapLocationViewModel;            
+            if (e.NavigationMode == NavigationMode.New)
+            {
+                var param = e.Parameter as MapLocationViewModel;
+
+                Debug.Assert(param != null);
+                Debug.Assert(ViewModel != null);
+
+                ViewModel.PointOfInterest = param;
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedFrom(e);
+            NavigationHelper.OnNavigatedFrom(e);
         }
 
         #endregion

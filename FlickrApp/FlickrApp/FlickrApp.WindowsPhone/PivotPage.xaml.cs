@@ -1,44 +1,57 @@
-﻿using FlickrApp.Common;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Display;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+﻿ // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace FlickrApp
 {
+    #region Imports
+
+    using System;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
-    using Contracts.Models;
+    using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Navigation;
+    using Common;
     using ViewModels;
+
+    #endregion
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class PivotPage : Page
     {
-        public PivotPage()
+        public class Parameter
         {
-            this.InitializeComponent();
+            public ReadOnlyObservableCollection<PhotoViewModel> Photos { get; }
 
-            this.NavigationHelper = new NavigationHelper(this);
-            this.NavigationHelper.LoadState += this.NavigationHelper_LoadState;
-            this.NavigationHelper.SaveState += this.NavigationHelper_SaveState;
+            public PhotoViewModel Selection { get; }
+
+            public Parameter(ObservableCollection<PhotoViewModel> photos, PhotoViewModel selection)
+            {
+                Photos = new ReadOnlyObservableCollection<PhotoViewModel>(photos);
+                Selection = selection;
+            }
         }
 
-        public PivotPageViewModel ViewModel => DataContext as PivotPageViewModel;
+        public PivotPageViewModel ViewModel { get; }
+
+        public PivotPage()
+        {
+            InitializeComponent();
+
+            NavigationHelper = new NavigationHelper(this);
+            NavigationHelper.LoadState += NavigationHelper_LoadState;
+            NavigationHelper.SaveState += NavigationHelper_SaveState;
+
+            if (! Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                if (ViewModel == null)
+                {
+                    ViewModel = Resolver.Instance.Resolve<PivotPageViewModel>();
+                    DataContext = ViewModel;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
@@ -89,15 +102,23 @@ namespace FlickrApp
         /// handlers that cannot cancel the navigation request.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.NavigationHelper.OnNavigatedTo(e);
+            NavigationHelper.OnNavigatedTo(e);
 
-            var itemVM = e.Parameter as PhotoViewModel;
-            ViewModel.SelectedItem = itemVM;
+            if (e.NavigationMode == NavigationMode.New)
+            {
+                var param = e.Parameter as Parameter;
+
+                Debug.Assert(param != null);
+                Debug.Assert(ViewModel != null);
+
+                ViewModel.Photos = param.Photos;
+                ViewModel.SelectedItem = param.Selection;
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            this.NavigationHelper.OnNavigatedFrom(e);
+            NavigationHelper.OnNavigatedFrom(e);
         }
 
         #endregion
@@ -106,7 +127,7 @@ namespace FlickrApp
         {
             Debug.Assert(ViewModel.SelectedItem != null);
 
-            Frame.Navigate(typeof(LocationPage), ViewModel.SelectedItem.Location);
-        }        
+            Frame.Navigate(typeof (LocationPage), ViewModel.SelectedItem.Location);
+        }
     }
 }

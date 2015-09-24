@@ -2,6 +2,7 @@
 {
     #region Imports
 
+    using System.Runtime.InteropServices.ComTypes;
     using Contracts.Models;
     using Extensions;
 
@@ -14,6 +15,8 @@
 
         private string _thumbnailLabel;
 
+
+        public uint SearchRequestId { get; set; }
 
         public string Id { get; set; }
 
@@ -36,6 +39,7 @@
 
         public PhotoViewModel(Photo photo)
         {
+            SearchRequestId = photo.SearchRequestId;
             Id = photo.Id;
             Title = photo.Title;
             Description = photo.Description;

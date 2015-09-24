@@ -11,13 +11,13 @@
     public class SearchPhotoResultEvent
     {
         public object Sender { get; }
-        public Guid SearchId { get; }
+        public uint SearchRequestId { get; }
         public ICollection<Photo> Photos { get; }
 
-        public SearchPhotoResultEvent(object sender, Guid searchId, ICollection<Photo> photos)
+        public SearchPhotoResultEvent(object sender, uint searchRequestId, ICollection<Photo> photos)
         {
             Sender = sender;
-            SearchId = searchId;
+            SearchRequestId = searchRequestId;
             Photos = photos;
         }
 

@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace FlickrApp
 {
+    using Windows.Web.Http.Headers;
     using Tasks;
 
     /// <summary>
@@ -42,12 +43,11 @@ namespace FlickrApp
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
 
-
             // register DI
             var startup = new Startup();
             startup.Configure();
 
-            // instantiate task
+            // instantiate tasks
             _photoDownloaderTask = new PhotoDownloaderTask();
             _photoDownloaderTask.Start();
         }
@@ -110,7 +110,7 @@ namespace FlickrApp
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                if (!rootFrame.Navigate(typeof(MainPage), e.Arguments))
+                if (!rootFrame.Navigate(typeof(SearchPage), e.Arguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }

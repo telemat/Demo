@@ -14,15 +14,11 @@
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
     </Page.Resources>
     
-    <d:Page.DataContext> <!--design only-->
+    <d:Page.DataContext> <!--for design only-->
         <viewModels:PivotPageViewModel />
     </d:Page.DataContext>
-    <Page.DataContext>
-        <viewModels:PivotPageViewModel />
-    </Page.DataContext>
 
     <Grid x:Name="LayoutRoot">
-
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition />

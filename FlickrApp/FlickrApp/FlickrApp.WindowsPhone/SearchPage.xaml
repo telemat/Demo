@@ -15,15 +15,11 @@
         <converters:BooleanToClosedDisplayModeConverter x:Key="BooleanToClosedDisplayMode" />
     </Page.Resources>
 
-    <d:Page.DataContext> <!--design only-->
+    <d:Page.DataContext> <!--for design only-->
         <viewModels:SearchPageViewModel />
     </d:Page.DataContext>
-    <Page.DataContext>
-        <viewModels:SearchPageViewModel />
-    </Page.DataContext>
 
     <Grid x:Name="LayoutRoot">
-
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition />

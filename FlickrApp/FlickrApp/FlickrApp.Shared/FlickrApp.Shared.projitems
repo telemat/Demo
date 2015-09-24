@@ -22,9 +22,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanToClosedDisplayModeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Providers\BaseProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Providers\PhotoProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Queues\PhotoDownloadQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Startup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tasks\BaseTask.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tasks\PhotoDownloaderTask.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />

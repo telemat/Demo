@@ -29,7 +29,7 @@
             }
             catch (Exception ex)
             {
-                Debug.Assert(false);
+                Debug.WriteLine(ex.Message);
             }
 
             return _flickr != null;
@@ -55,6 +55,7 @@
             {                
                 photoCol.Add(new Photo
                 {
+                    SearchRequestId = option.SearchRequestId,
                     Id = photo.PhotoId,
                     Title = photo.Title,
                     Description = photo.Description,

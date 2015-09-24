@@ -2,8 +2,9 @@
 {
     #region Imports
 
-    using System;
+    using System.Collections.ObjectModel;
     using System.Threading;
+    using System.Threading.Tasks;
     using Contracts;
     using Contracts.Events;
     using Contracts.Models;
@@ -17,19 +18,19 @@
         {
             public readonly object SynLock;
             public bool IsUpdated;
-            public Guid SearchId;
+            public uint SearchRequestId;
             public string SearchTerm;
 
             public SearchRequestStruct(object obj)
             {
                 SynLock = obj;
                 IsUpdated = false;
-                SearchId = Guid.Empty;
+                SearchRequestId = 0;
                 SearchTerm = string.Empty;
             }
         }
 
-        private const int DefaultPageSize = 6;
+        private const int DefaultPageSize = 5;
 
         private readonly IMessengerService _messengerService;
 
@@ -39,24 +40,24 @@
 
         private SearchRequestStruct _searchRequest = new SearchRequestStruct(new object());
 
-        private readonly ManualResetEventSlim _isSearching;
+        private readonly ManualResetEventSlim _isMorePageAvailable;
 
         private bool _isDisposed;
 
 
         public PhotoDownloaderTask()
-            : base(nameof(PhotoDownloaderTask), 500 /* ms */)
+            : base(nameof(PhotoDownloaderTask), 250 /* ms */)
         {
             _messengerService = Resolver.Instance.Resolve<IMessengerService>();
             _flickrService = Resolver.Instance.Resolve<IFlickrService>();
 
             _searchOption = new PhotoSearchOption
             {
-                PageNumber = 0,
+                PageNumber = 1,
                 PageSize = DefaultPageSize
             };
 
-            _isSearching = new ManualResetEventSlim(false);
+            _isMorePageAvailable = new ManualResetEventSlim(false);
 
             // listen for these events
             _messengerService.Register<SearchPhotoEvent>(OnSearchPhoto);
@@ -69,28 +70,34 @@
             {
                 lock (_searchRequest.SynLock)
                 {
+                    _searchOption.SearchRequestId = _searchRequest.SearchRequestId;
                     _searchOption.SearchTerm = _searchRequest.SearchTerm;
                     _searchRequest.SearchTerm = null;
                     _searchRequest.IsUpdated = false;
                 }
 
-                _searchOption.PageNumber = 0;
-                _isSearching.Set();
+                _searchOption.PageNumber = 1;
+                _isMorePageAvailable.Set();
             }
-            else if (! _isSearching.IsSet)
+            else if (! _isMorePageAvailable.IsSet)
+                return;
+
+            Collection<Photo> result;
+
+            if (_flickrService.Initialize("c4e9f03344dc58da787a58c8aaf9b9b5", string.Empty))
+                result = _flickrService.SearchAsync(_searchOption).Result;
+            else
                 return;
 
             ++_searchOption.PageNumber;
 
-            var result = _flickrService.SearchAsync(_searchOption).Result;
-
             // check if this is the last page
             if (result.Count < _searchOption.PageSize)
             {
-                _isSearching.Reset();
+                _isMorePageAvailable.Reset();
             }
 
-            Guid currentSearchId;
+            uint currentSearchId;
 
             lock (_searchRequest.SynLock)
             {
@@ -99,7 +106,7 @@
                     return;
 
                 // deliver the current result
-                currentSearchId = _searchRequest.SearchId;
+                currentSearchId = _searchRequest.SearchRequestId;
             }
 
             // notify listeners
@@ -108,11 +115,15 @@
 
         private void OnSearchPhoto(SearchPhotoEvent searchPhotoEvent)
         {
-            lock (_searchRequest.SynLock)
+            // update the search request if it is a new one
+            if (_searchRequest.SearchRequestId != searchPhotoEvent.SearchId)
             {
-                _searchRequest.SearchTerm = searchPhotoEvent.SearchTerm;
-                _searchRequest.SearchId = searchPhotoEvent.SearchId;
-                _searchRequest.IsUpdated = true;
+                lock (_searchRequest.SynLock)
+                {
+                    _searchRequest.SearchRequestId = searchPhotoEvent.SearchId;
+                    _searchRequest.SearchTerm = searchPhotoEvent.SearchTerm;
+                    _searchRequest.IsUpdated = true;
+                }
             }
 
             if (! IsRunning)
