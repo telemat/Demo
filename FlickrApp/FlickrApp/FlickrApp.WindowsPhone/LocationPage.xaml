@@ -31,9 +31,9 @@
 
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="FlickrApp (Map Page)" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
-            <TextBlock Text="Map Page" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"
-                       CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}" />
+            <TextBlock Text="FlickrApp (Location Page)" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
+            <!--<TextBlock Text="Map Page" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"
+                       CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}" />-->
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
@@ -42,7 +42,7 @@
                              MapServiceToken="{Binding ServiceToken}"
                              Center="{Binding PointOfInterest.Location}"
                              LandmarksVisible="False" TrafficFlowVisible="False"
-                             ZoomLevel="12" PedestrianFeaturesVisible="False">
+                             ZoomLevel="10" PedestrianFeaturesVisible="False">
                 <Image Source="Assets/mappin.png" Height="25"
                        Maps:MapControl.Location="{Binding PointOfInterest.Location}"
                        Maps:MapControl.NormalizedAnchorPoint="0.5, 0.5" />

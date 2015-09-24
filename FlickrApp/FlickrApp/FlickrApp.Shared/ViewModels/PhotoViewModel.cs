@@ -10,7 +10,7 @@
     public class PhotoViewModel
         : BaseViewModel
     {
-        private const int WrapCharacterCount = 18;
+        private const int WrapCharacterCount = 17;
 
         private string _thumbnailLabel;
 

@@ -106,14 +106,7 @@ namespace FlickrApp
         {
             Debug.Assert(ViewModel.SelectedItem != null);
 
-
             Frame.Navigate(typeof(LocationPage), ViewModel.SelectedItem.Location);
-        }
-
-        private void Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var pivot = sender as Pivot;
-            Debug.WriteLine("#Pivot selected item = " + (pivot.SelectedItem as PhotoViewModel));
-        }
+        }        
     }
 }

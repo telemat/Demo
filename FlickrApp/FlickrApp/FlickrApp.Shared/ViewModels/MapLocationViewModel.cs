@@ -10,7 +10,7 @@
     public class MapLocationViewModel
         : BaseViewModel
     {
-        private const int WrapCharacterCount = 32;
+        private const int WrapCharacterCount = 30;
 
         private string _displayLabel;
 
